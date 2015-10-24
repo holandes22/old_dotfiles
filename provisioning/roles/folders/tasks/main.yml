@@ -1,0 +1,16 @@
+- name: create home folders
+  file: path={{ home_folder }}/{{ item }} state=directory mode=0644 owner={{ user }} group={{ group }}
+  with_items: home_folders
+
+- name: list dotfiles files
+  shell: "ls -1A {{ dotfiles_source_path }}"
+  register: dotfiles
+
+- name: link dotfiles
+  file: src={{ dotfiles_source_path }}/{{ item }} dest={{ home_folder }}/{{ item }} state=link force=yes owner={{ user }} group={{ group }}
+  with_items: dotfiles.stdout_lines
+
+- name: generate virtualenvwrapper hooks
+  template: src=virtualenvwrapper_hooks/{{ item }} dest={{ home_folder }}/.virtualenvs/{{ item }} mode=0644 owner={{ user }} group={{ group }}
+  with_items:
+    - postactivate

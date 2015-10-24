@@ -1,0 +1,11 @@
+- name: update pacman cache
+  pacman: update_cache=yes
+
+- name: install system packages
+  pacman: name={{ item }} state=present update_cache=no
+  with_items: system_packages
+
+- name: install user packages
+  command: packer -S {{ item }} --noconfirm
+  sudo: no
+  with_items: user_system_packages

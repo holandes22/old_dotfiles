@@ -1,0 +1,23 @@
+system_packages:
+  - python-pip
+  - vlc
+  - base-devel
+  - git
+  - nodejs
+  - npm
+  - ruby
+  - openssh
+  - nfs-utils
+  - curl
+  - tmux
+  - vim
+  - vagrant
+  - gnome-tweak-tool
+  - file-roller
+
+user_system_packages:
+  - cargo-bin
+  - dropbox
+  - nautilus-dropbox
+  - google-chrome
+  - watchman

@@ -1,0 +1,10 @@
+- name: ensure latest pip
+  pip: name=pip state=latest
+
+- name: install python packages in system python3
+  pip: name={{ item }} executable=python3
+  with_items: python_packages
+
+- name: install python packages in system python2
+  pip: name={{ item }} executable=python2
+  with_items: python_packages

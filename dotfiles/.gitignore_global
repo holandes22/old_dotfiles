@@ -1,0 +1,14 @@
+*~
+*.swp
+*.pyc
+.project
+.pydevproject
+.ropeproject
+.vagrant
+*.log
+*.pid
+*.db
+.librarian/
+.tmp/
+node_modules/
+requirements*txt.sha1

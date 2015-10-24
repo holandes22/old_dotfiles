@@ -1,0 +1,4 @@
+DIR={{ home_folder }}/projects/`basename $VIRTUAL_ENV`
+if [ -d "$DIR" ]; then
+    cd $DIR
+fi

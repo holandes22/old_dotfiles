@@ -1,0 +1,33 @@
+---
+local_root_path: "{{ role_path }}/../../.."
+dotfiles_source_path: "{{ local_root_path }}/dotfiles"
+
+user: "{{ lookup('env','LOCAL_PROVISIONING_USER') | default('pablo', true) }}"
+group: "{{ lookup('env','LOCAL_PROVISIONING_GROUP') | default('users', true) }}"
+home_folder: "{{ lookup('env','LOCAL_PROVISIONING_HOME') | default('/home/pablo', true) }}"
+dotfiles_folder: "{{ home_folder }}/dotfiles/dotfiles"
+
+home_folders:
+    - .virtualenvs
+    - projects
+
+python_packages:
+    - vim-bridge
+    - pep8
+    - pylint
+    - ipython
+    - virtualenv
+    - virtualenvwrapper
+
+ruby_gems:
+    - tmuxinator
+
+node_packages:
+    - jshint
+    - bower
+    - phantomjs
+
+services:
+  - sshd.service
+  - rpc-idmapd.service # NFS
+  - rpc-mountd.service # NFS

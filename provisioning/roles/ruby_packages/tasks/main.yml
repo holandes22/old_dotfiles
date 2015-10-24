@@ -1,0 +1,3 @@
+- name: install ruby packages
+  gem: name={{ item }} state=present user_install=no
+  with_items: ruby_gems

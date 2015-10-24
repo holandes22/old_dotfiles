@@ -1,0 +1,8 @@
+cron_service_name: cron
+
+system_repos:
+    - "deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main"
+
+system_packages:
+  - postgresql-9.4
+  - python-psycopg2
