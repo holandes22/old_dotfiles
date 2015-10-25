@@ -10,9 +10,8 @@ if [ -e "/etc/arch-release" ]; then
 elif [ -e "/etc/redhat-release" ]; then
     echo "No need to install deps"
 else
-    sudo add-apt-repository --yes ppa:git-core/ppa
     sudo apt-get update
-    sudo apt-get install --yes git python-yaml
+    sudo apt-get install --yes git
 fi
 
 sudo pip install virtualenv

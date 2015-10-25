@@ -9,3 +9,24 @@
   command: packer -S {{ item }} --noconfirm
   sudo: no
   with_items: user_system_packages
+
+- name: add ssh settings
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    state: "present"
+    line: {{ item }}
+  with_items:
+    - "AllowGroups   wheel"
+    - "PermitRootLogin no"
+
+- name: load vbox modules
+  modprobe: name={{ item }}
+  with_items:
+    - vboxdrv
+    - vboxnetflt
+    - vboxnetadp
+
+- name: add vbox module to be loaded at boot
+  template: src=virtualbox.conf.j2 dest=/etc/modules-load.d/virtualbox.conf
+
+

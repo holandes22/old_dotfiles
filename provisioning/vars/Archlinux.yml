@@ -12,8 +12,11 @@ system_packages:
   - tmux
   - vim
   - vagrant
+  - virtualbox
   - gnome-tweak-tool
   - file-roller
+  - smbclient
+  - gvfs-smb
 
 user_system_packages:
   - cargo-bin

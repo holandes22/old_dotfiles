@@ -3,27 +3,53 @@
 set -e
 
 ACTION=configure
-USERNANE=pablo
+USERNAME=pablo
 HOSTNAME=laptop-$USERNAME
 VIDEO_PACKAGES=mesa
+SYSLINUX_CFG_FILE=/boot/syslinux/syslinux.cfg
+LANG_CODE=en_US.UTF-8
+
 
 configure() {
-    useradd -m -g users -G lp,wheel,network,video,audio,storage -s /bin/bash $USERNAME
-    passwd $USERNAME
     systemctl start dhcpcd.service
-    pacman -S --noconfirm gnome $VIDEO_PACKAGES sudo xorg-server xorg-server-utils xorg-xinit alsa-utils ttf-dejavu
-    amixer sset Master unmute
-    for SN in gdm sshd NetworkManager; do
+    sleep 10
+    pacman -S --noconfirm gnome $VIDEO_PACKAGES sudo xorg-server xorg-server-utils xorg-xinit alsa-utils
+    for SN in gdm NetworkManager; do
         systemctl enable $SN.service
     done
-    ## Uncomment to allow members of group wheel to execute any command
+    cp /etc/sudoers /etc/sudoers.original
     sed -i '/%wheel ALL=(ALL) ALL/s/^#//' /etc/sudoers
-    echo -e 'AllowGroups   wheel\nPermitRootLogin no' >> /etc/ssh/sshd_config
 }
 
 
+install_chroot() {
+    echo setting root passwd
+    passwd
+
+    echo Adding user $USERNAME
+    useradd -m -g users -G lp,wheel,network,video,audio,storage -s /bin/bash $USERNAME
+    passwd $USERNAME
+
+    echo Setting locale and timezone
+    sed -i "/^#$LANG_CODE\sUTF-8/s/^#//g" /etc/locale.gen
+    locale-gen
+    echo LANG=$LANG_CODE > /etc/locale.conf
+    export LANG=$LANG_CODE
+    ln -s /usr/share/zoneinfo/Asia/Jerusalem /etc/localtime
+    echo $HOSTNAME > /etc/hostname
+
+    # After linux kernerl 3.17-2 and 3.14.21-2 LTS, adding intel-ucode
+    # img is needed at boot to enable microcode update
+    pacman -S --noconfirm intel-ucode gptfdisk syslinux
+    echo Adding intel-ucode boot images
+    syslinux-install_update -iam
+    for image in initramfs-linux initramfs-linux-fallback; do
+        sed -i "s/INITRD\s..\/$image.img/INITRD ..\/intel-ucode.img,..\/$image.img/g" $SYSLINUX_CFG_FILE
+    done
+    sed -i "s/APPEND\sroot=\/dev\/sda3\srw/APPEND root=\/dev\/sda1 rw/g" $SYSLINUX_CFG_FILE
+}
+
 install() {
-    #sfdisk /dev/sda < "$PARTITION_LAYOUT"
     echo Creating partitions
     echo "g
     n
@@ -38,39 +64,12 @@ install() {
     pacstrap /mnt base
     genfstab -U -p /mnt >> /mnt/etc/fstab
     echo "Running arch-chroot"
-    echo -e '
-    #!/bin/bash
+    cp ./install.sh /mnt/usr/src/
 
-    set -e
-    HOSTNAME=$1
-    SYSLINUX_CFG_FILE=/boot/syslinux/syslinux.cfg
-    LANG_CODE=en_US.UTF-8
-
-    passwd
-
-    echo Setting locale and timezone
-    sed -i "/^#$LANG_CODE\sUTF-8/s/^#//g" /etc/locale.gen
-    locale-gen
-    locale
-    echo LANG=$LANG_CODE > /etc/locale.conf
-    export LANG=$LANG_CODE
-    ln -s /usr/share/zoneinfo/Asia/Jerusalem /etc/localtime
-    echo $HOSTNAME > /etc/hostname
-
-    # After linux kernerl 3.17-2 and 3.14.21-2 LTS, adding intel-ucode
-    # img is needed at boot to enable microcode update
-    echo Adding intel-ucode boot images
-    pacman -S --noconfirm intel-ucode gptfdisk syslinux
-    syslinux-install_update -iam
-    for image in initramfs-linux initramfs-linux-fallback; do
-        sed -i "s/INITRD\s..\/$image.img/INITRD ..\/intel-ucode.img,..\/$image.img/g" $SYSLINUX_CFG_FILE
-    done
-    sed -i "s/APPEND\sroot=\/dev\/sda3\srw/APPEND root=\/dev\/sda1 rw/g" $SYSLINUX_CFG_FILE
-    ' >> /mnt/usr/src/configure.sh $HOSTNAME
-    chmod 777 /mnt/usr/src/configure.sh
-
-    arch-chroot /mnt /usr/src/configure.sh
-    rm -rf /mnt/usr/src/configure.sh
+    arch-chroot /mnt /usr/src/install.sh -a install-chroot -n $HOSTNAME
+    echo Done running arch-root
+    mv /mnt/usr/src/install.sh /mnt/home/$USERNAME
+    chmod 777 /home/$USERNAME/install.sh
     umount -R /mnt
 }
 
@@ -117,7 +116,9 @@ done
 
 if [ "$ACTION" = "install" ]; then
     install
-    echo Done. Now reboot and run configuration
+    echo Done. Now reboot and run configuration with /home/$USERNAME/install sh -a configure
+elif [ "$ACTION" = "install-chroot" ]; then
+    install_chroot
 else
     configure
     echo Done configuring
