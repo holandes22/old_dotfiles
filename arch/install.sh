@@ -5,15 +5,13 @@ set -e
 ACTION=configure
 USERNANE=pablo
 HOSTNAME=laptop-$USERNAME
-LANG_CODE=en_US.UTF-8
 VIDEO_PACKAGES=mesa
-SYSLINUX_CFG_FILE=/boot/syslinux/syslinux.cfg
 
 configure() {
+    useradd -m -g users -G lp,wheel,network,video,audio,storage -s /bin/bash $USERNAME
+    passwd $USERNAME
     systemctl start dhcpcd.service
     pacman -S --noconfirm gnome $VIDEO_PACKAGES sudo xorg-server xorg-server-utils xorg-xinit alsa-utils ttf-dejavu
-    useradd -m -g users -G lp,wheel,network,video,audio,storage -s /bin/bash $USERNAME
-    passwd pablo
     amixer sset Master unmute
     for SN in gdm sshd NetworkManager; do
         systemctl enable $SN.service
@@ -44,7 +42,12 @@ install() {
     #!/bin/bash
 
     set -e
+    HOSTNAME=$1
+    SYSLINUX_CFG_FILE=/boot/syslinux/syslinux.cfg
+    LANG_CODE=en_US.UTF-8
+
     passwd
+
     echo Setting locale and timezone
     sed -i "/^#$LANG_CODE\sUTF-8/s/^#//g" /etc/locale.gen
     locale-gen
@@ -57,13 +60,13 @@ install() {
     # After linux kernerl 3.17-2 and 3.14.21-2 LTS, adding intel-ucode
     # img is needed at boot to enable microcode update
     echo Adding intel-ucode boot images
-    pacman -S --no-confirm intel-ucode gptfdisk syslinux
+    pacman -S --noconfirm intel-ucode gptfdisk syslinux
     syslinux-install_update -iam
     for image in initramfs-linux initramfs-linux-fallback; do
         sed -i "s/INITRD\s..\/$image.img/INITRD ..\/intel-ucode.img,..\/$image.img/g" $SYSLINUX_CFG_FILE
     done
     sed -i "s/APPEND\sroot=\/dev\/sda3\srw/APPEND root=\/dev\/sda1 rw/g" $SYSLINUX_CFG_FILE
-    ' >> /mnt/usr/src/configure.sh
+    ' >> /mnt/usr/src/configure.sh $HOSTNAME
     chmod 777 /mnt/usr/src/configure.sh
 
     arch-chroot /mnt /usr/src/configure.sh
@@ -114,7 +117,7 @@ done
 
 if [ "$ACTION" = "install" ]; then
     install
-    echo Done. you may now reboot and run configuration
+    echo Done. Now reboot and run configuration
 else
     configure
     echo Done configuring
