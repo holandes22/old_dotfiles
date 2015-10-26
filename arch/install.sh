@@ -69,7 +69,7 @@ install() {
     arch-chroot /mnt /usr/src/install.sh -a install-chroot -n $HOSTNAME
     echo Done running arch-root
     mv /mnt/usr/src/install.sh /mnt/home/$USERNAME
-    chmod 777 /home/$USERNAME/install.sh
+    chmod 777 /mnt/home/$USERNAME/install.sh
     umount -R /mnt
 }
 
