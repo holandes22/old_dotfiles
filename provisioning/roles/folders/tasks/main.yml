@@ -1,5 +1,5 @@
 - name: create home folders
-  file: path={{ home_folder }}/{{ item }} state=directory mode=0644 owner={{ user }} group={{ group }}
+  file: path={{ home_folder }}/{{ item }} state=directory mode=0744 owner={{ user }} group={{ group }}
   with_items: home_folders
 
 - name: list dotfiles files
@@ -11,6 +11,11 @@
   with_items: dotfiles.stdout_lines
 
 - name: generate virtualenvwrapper hooks
-  template: src=virtualenvwrapper_hooks/{{ item }} dest={{ home_folder }}/.virtualenvs/{{ item }} mode=0644 owner={{ user }} group={{ group }}
+  template: src=virtualenvwrapper_hooks/{{ item }} dest={{ home_folder }}/.virtualenvs/{{ item }} mode=0744 owner={{ user }} group={{ group }}
+  with_items:
+    - postactivate
+
+- name: generate tmuxinator completion script
+  template: src=tmuxinator.j2 dest=/usr/share/bash-completion/completions/tmuxinator mode=0777
   with_items:
     - postactivate

@@ -6,8 +6,8 @@
   with_items: system_packages
 
 - name: install user packages
-  command: packer -S {{ item }} --noconfirm
   sudo: no
+  packer: name={{ item }} state=present
   with_items: user_system_packages
 
 - name: add ssh settings

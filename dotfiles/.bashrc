@@ -43,3 +43,19 @@ export TERM=screen-256color
 # =======
 
 alias ..='cd .. '
+
+# Completion
+# ==========
+for completion_script in tmux vagrant tmuxinator; do
+    source /usr/share/bash-completion/completions/$completion_script
+done
+
+if [ -e "/etc/arch-release" ]; then
+    source /usr/share/git/completion/git-completion.bash
+    source /usr/share/git/completion/git-prompt.sh
+elif [ -e "/etc/redhat-release" ]; then
+    source /usr/share/git-core/contrib/completion/git-prompt.sh
+fi
+
+# virtualenvwrapper
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python2

@@ -1,12 +1,15 @@
 system_packages:
   - python-pip
   - python2-pip
+  - python
+  - python2
+  - rust
+  - npm
+  - nodejs
+  - ruby
   - vlc
   - base-devel
   - git
-  - nodejs
-  - npm
-  - ruby
   - openssh
   - nfs-utils
   - curl
@@ -18,10 +21,7 @@ system_packages:
   - file-roller
   - smbclient
   - gvfs-smb
-  - rust
   - docker
-  - python
-  - python2
 
 user_system_packages:
   - cargo-bin

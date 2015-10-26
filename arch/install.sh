@@ -8,11 +8,14 @@ HOSTNAME=laptop-$USERNAME
 VIDEO_PACKAGES=mesa
 SYSLINUX_CFG_FILE=/boot/syslinux/syslinux.cfg
 LANG_CODE=en_US.UTF-8
+DEVICE=/dev/sda
 
 
 configure() {
+    echo Starting dhcpcd service
     systemctl start dhcpcd.service
-    sleep 10
+    sleep 7
+    echo Installing packages
     pacman -S --noconfirm gnome $VIDEO_PACKAGES sudo xorg-server xorg-server-utils xorg-xinit alsa-utils
     for SN in gdm NetworkManager; do
         systemctl enable $SN.service
@@ -56,10 +59,10 @@ install() {
 
 
 
-    w" | fdisk /dev/sda
+    w" | fdisk $DEVICE
 
-    mkfs.ext4 /dev/sda1
-    mount /dev/sda1 /mnt
+    mkfs.ext4 $DEVICE\1
+    mount $DEVICE\1 /mnt
     echo Running pacstrap
     pacstrap /mnt base
     genfstab -U -p /mnt >> /mnt/etc/fstab
@@ -91,18 +94,18 @@ usage() {
 while getopts "hm:n:a:" opt; do
   case $opt in
     m)
-      echo "Using graphic cards $OPTARG" >&2
       if [ "$OPTARG" = "nvidia" ]; then
         VIDEO_PACKAGES=nvidia
       fi
       ;;
     n)
-      echo "Hostname $OPTARG" >&2
       HOSTNAME=$OPTARG
       ;;
     a)
-      echo "Running action $OPTARG" >&2
       ACTION=$OPTARG
+      ;;
+    d)
+      DEVICE=$OPTARG
       ;;
     h)
       usage
@@ -113,6 +116,12 @@ while getopts "hm:n:a:" opt; do
   esac
 done
 
+echo running action $ACTION
+echo hostname is $HOSTNAME
+echo device is $DEVICE
+echo video packages are $VIDEO_PACKAGES
+echo
+sleep 5
 
 if [ "$ACTION" = "install" ]; then
     install

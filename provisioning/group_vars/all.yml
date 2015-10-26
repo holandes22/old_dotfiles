@@ -29,5 +29,3 @@ node_packages:
 
 services:
   - sshd.service
-  - rpc-idmapd.service # NFS
-  - rpc-mountd.service # NFS
