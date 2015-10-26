@@ -1,5 +1,6 @@
 system_packages:
   - python-pip
+  - python2-pip
   - vlc
   - base-devel
   - git
@@ -17,6 +18,10 @@ system_packages:
   - file-roller
   - smbclient
   - gvfs-smb
+  - rust
+  - docker
+  - python
+  - python2
 
 user_system_packages:
   - cargo-bin
