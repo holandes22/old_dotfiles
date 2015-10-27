@@ -19,7 +19,9 @@ is_installed() {
 }
 
 install_packer() {
-    if ! is_installed packer; then
+    if is_installed packer; then
+        echo Packer already installed
+    else
         echo Installing packer
         cd /tmp
         curl https://aur4.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=packer --output PKGBUILD
@@ -29,12 +31,19 @@ install_packer() {
     fi
 }
 
-if [ -e "/etc/arch-release" ]; then
-    for pkg in python2 python-pip curl base-devel fakeroot jshon expac git; do
-        if ! is_installed $pkg; then
+
+install_arch_packages() {
+    for pkg in python2 python-pip curl jshon expac git base-devel; do
+        if is_installed $pkg; then
+            echo Package $pkg already installed
+        else
             sudo pacman -S --noconfirm $pkg
         fi
     done
+}
+
+if [ -e "/etc/arch-release" ]; then
+    install_arch_packages
     install_packer
 elif [ -e "/etc/redhat-release" ]; then
     echo "No need to install deps"
