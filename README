@@ -1,8 +1,0 @@
-curl -L bit.ly/pk-archinstall -o install.sh
-curl -L bit.ly/provision-bootstrap -o bootstrap.sh
-chmod 777 *.sh
-./install.sh -a install -n <hostname>
-reboot
-./bootstrap.sh <ssh_dir>
-reboot
-

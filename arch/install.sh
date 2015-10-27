@@ -14,7 +14,7 @@ DEVICE=/dev/sda
 configure() {
     echo Starting dhcpcd service
     systemctl start dhcpcd.service
-    sleep 7
+    sleep 4
     echo Installing packages
     pacman -S --noconfirm gnome $VIDEO_PACKAGES sudo xorg-server xorg-server-utils xorg-xinit alsa-utils
     for SN in gdm NetworkManager; do
