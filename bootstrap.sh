@@ -56,12 +56,11 @@ cd $HOME
 if [ ! -d dotfiles ]; then
     git clone git@github.com:holandes22/dotfiles
 fi
-cd dotfiles
 
 sudo pip install virtualenv
 virtualenv -p /usr/bin/python2 /tmp/.venv
 /tmp/.venv/bin/pip install ansible
-sudo /tmp/.venv/bin/ansible-playbook -i provisioning/inventory provisioning/site.yml -e ansible_python_interpreter=/usr/bin/python2
+export ANSIBLE_CONFIG="$HOME/dotfiles/ansible.cfg"
+sudo /tmp/.venv/bin/ansible-playbook -i dotfiles/provisioning/inventory dotfiles/provisioning/site.yml -e ansible_python_interpreter=/usr/bin/python2
 
-cd $HOME
 echo Done. Recommended to reboot
