@@ -37,7 +37,7 @@ install_arch_packages() {
         if is_installed $pkg; then
             echo Package $pkg already installed
         else
-            sudo pacman -S --noconfirm $pkg
+            sudo pacman -S --noconfirm --needed $pkg
         fi
     done
 }
