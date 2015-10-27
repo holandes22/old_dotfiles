@@ -53,7 +53,7 @@ else
 fi
 
 cd $HOME
-if [ ! -d "$TGT_SSH_DIR" ]; then
+if [ ! -d dotfiles ]; then
     git clone git@github.com:holandes22/dotfiles
 fi
 cd dotfiles
