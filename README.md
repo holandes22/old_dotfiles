@@ -1,7 +1,6 @@
 # Arch install
 
     # curl -L bit.ly/pk-archinstall -o install.sh
-    # chmod 777 install.sh
     # ./install.sh -a install -n <hostname>
 
 reboot
@@ -25,7 +24,6 @@ vboxvideo
 **note:** Will ask for sudo and ssh passphrase at beginning, so stick around
 
     $ curl -L bit.ly/provision-bootstrap -o bootstrap.sh
-    $ chmod 777 bootstrap.sh
     $ ./bootstrap.sh <ssh_dir>
 
 reboot

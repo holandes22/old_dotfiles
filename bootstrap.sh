@@ -13,14 +13,29 @@ if [ ! -d "$TGT_SSH_DIR" ]; then
 fi
 
 
+is_installed() {
+    pacman -Q $1 > /dev/null 2>&1
+    return $?
+}
+
+install_packer() {
+    if ! is_installed packer; then
+        echo Installing packer
+        cd /tmp
+        curl https://aur4.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=packer --output PKGBUILD
+        makepkg -f
+        sudo pacman -U --noconfirm packer-*.pkg.tar.xz
+        cd -
+    fi
+}
 
 if [ -e "/etc/arch-release" ]; then
-    sudo pacman -Sy --noconfirm python2 python-pip curl base-devel fakeroot jshon expac git
-    cd /tmp
-    curl https://aur4.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=packer --output PKGBUILD
-    makepkg -f
-    sudo pacman -U --noconfirm packer-*.pkg.tar.xz
-    cd -
+    for pkg in python2 python-pip curl base-devel fakeroot jshon expac git; do
+        if ! is_installed $pkg; then
+            sudo pacman -S --noconfirm $pkg
+        fi
+    done
+    install_packer
 elif [ -e "/etc/redhat-release" ]; then
     echo "No need to install deps"
 else
@@ -29,7 +44,9 @@ else
 fi
 
 cd $HOME
-git clone git@github.com:holandes22/dotfiles
+if [ ! -d "$TGT_SSH_DIR" ]; then
+    git clone git@github.com:holandes22/dotfiles
+fi
 cd dotfiles
 
 sudo pip install virtualenv
