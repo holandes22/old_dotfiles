@@ -22,9 +22,9 @@ echo Bootstrapping $PLAYBOOK
 
 if [ ! -d "$TGT_SSH_DIR" ]; then
     mkdir $TGT_SSH_DIR
+    cp -r $SRC_SSH_DIR/* $TGT_SSH_DIR
+    chmod 400 $TGT_SSH_DIR/*
 fi
-cp -r $SRC_SSH_DIR/* $TGT_SSH_DIR
-chmod 400 $TGT_SSH_DIR/*
 
 is_installed() {
     which $1

@@ -49,7 +49,7 @@ install_chroot() {
     for image in initramfs-linux initramfs-linux-fallback; do
         sed -i "s/INITRD\s..\/$image.img/INITRD ..\/intel-ucode.img,..\/$image.img/g" $SYSLINUX_CFG_FILE
     done
-    sed -i "s/APPEND\sroot=\/dev\/sda3\srw/APPEND root=$DEVICE\1 rw/g" $SYSLINUX_CFG_FILE
+    sed -i "s/APPEND\sroot=\/dev\/sda3\srw/APPEND root=$DEVICE1 rw/g" $SYSLINUX_CFG_FILE
 }
 
 install() {
@@ -83,17 +83,18 @@ usage() {
     options:
 
         -a Action to take [install|configure]
-        -m Graphic card package
-        -n hostname
+        -v Graphic card package
+        -n Hostname
+        -d Disk device
         -h Display this message.
 
     "
     exit 1
 }
 
-while getopts "hm:n:a:" opt; do
+while getopts "hv:n:a:d:" opt; do
   case $opt in
-    m)
+    v)
       if [ "$OPTARG" = "nvidia" ]; then
         VIDEO_PACKAGES=nvidia
       fi
@@ -138,7 +139,10 @@ if [ "$ACTION" = "install" ]; then
 
 elif [ "$ACTION" = "install-chroot" ]; then
     install_chroot
-else
+elif [ "$ACTION" = "configure" ]; then
     configure
     echo Done configuring. Please reboot.
+else
+    echo Please specify an action
+    exit 1
 fi
