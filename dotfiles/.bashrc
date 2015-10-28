@@ -46,6 +46,7 @@ alias ..='cd .. '
 
 # Completion
 # ==========
+# TODO: make it work in Ubuntu and avoid sourceing if file is not there
 for completion_script in tmux vagrant tmuxinator; do
     source /usr/share/bash-completion/completions/$completion_script
 done
@@ -59,3 +60,8 @@ fi
 
 # virtualenvwrapper
 export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python2
+if [ \( -e "/etc/arch-release" \) -o \( -e "/etc/redhat-release" \) ]; then
+    source /usr/bin/virtualenvwrapper.sh
+else
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
