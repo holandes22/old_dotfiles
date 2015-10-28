@@ -1,11 +1,24 @@
 #!/bin/sh
 set -e
 
-SRC_SSH_DIR=$1
+SRC_SSH_DIR=ssh
 TGT_SSH_DIR=$HOME/.ssh
 PLAYBOOK=site.yml
 
-echo Bootstrapping
+while getopts "t:s:" opt; do
+  case $opt in
+    t)
+      if [ "$OPTARG" = "gaming" ]; then
+        PLAYBOOK=gaming.yml
+      fi
+      ;;
+    s)
+      SRC_SSH_DIR=$OPTARG
+      ;;
+  esac
+done
+
+echo Bootstrapping $PLAYBOOK
 
 if [ ! -d "$TGT_SSH_DIR" ]; then
     mkdir $TGT_SSH_DIR
@@ -62,18 +75,9 @@ get_and_install_pip() {
 
 install_ubuntu_packages() {
     sudo apt-get update
-    sudo apt-get install --yes git
+    sudo apt-get install --yes git python-dev
 }
 
-while getopts "t:" opt; do
-  case $opt in
-    t)
-      if [ "$OPTARG" = "gaming" ]; then
-        PLAYBOOK=gaming.yml
-      fi
-      ;;
-  esac
-done
 
 if [ -e "/etc/arch-release" ]; then
     install_arch_packages
@@ -93,6 +97,5 @@ fi
 sudo pip install virtualenv
 virtualenv -p /usr/bin/python2 /tmp/.venv
 /tmp/.venv/bin/pip install ansible
-echo Running playbook $PLAYBOOK
-sudo ANSIBLE_CONFIG="$HOME/dotfiles/ansible.cfg" /tmp/.venv/bin/ansible-playbook -i dotfiles/provisioning/inventory dotfiles/provisioning/site.yml -e ansible_python_interpreter=/usr/bin/python2 dotfiles/provisioning/$PLAYBOOK
+sudo ANSIBLE_CONFIG="$HOME/dotfiles/ansible.cfg" /tmp/.venv/bin/ansible-playbook -i dotfiles/provisioning/inventory dotfiles/provisioning/$PLAYBOOK -e ansible_python_interpreter=/usr/bin/python2
 echo Done. Recommended to reboot
