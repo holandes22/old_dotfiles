@@ -33,7 +33,7 @@ install_packer() {
 
 
 install_arch_packages() {
-    for pkg in python2 python-pip curl jshon expac git base-devel; do
+    for pkg in python2 python-pip openssh curl jshon expac git base-devel; do
         if is_installed $pkg; then
             echo Package $pkg already installed
         else
@@ -48,6 +48,8 @@ if [ -e "/etc/arch-release" ]; then
 elif [ -e "/etc/redhat-release" ]; then
     echo "No need to install deps"
 else
+    # TODO: verify check in ubuntu mate
+    # TODO: install pip with get-pip in py2 and py3
     sudo apt-get update
     sudo apt-get install --yes git
 fi

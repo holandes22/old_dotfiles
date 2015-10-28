@@ -12,9 +12,9 @@ DEVICE=/dev/sda
 
 
 configure() {
-    echo Starting dhcpcd service
+    echo Starting dhcpcd service...
     systemctl start dhcpcd.service
-    sleep 4
+    sleep 10
     echo Installing packages
     pacman -S --noconfirm gnome $VIDEO_PACKAGES sudo xorg-server xorg-server-utils xorg-xinit alsa-utils
     for SN in gdm NetworkManager; do
@@ -116,19 +116,29 @@ while getopts "hm:n:a:" opt; do
   esac
 done
 
+
 echo running action $ACTION
-echo hostname is $HOSTNAME
-echo device is $DEVICE
-echo video packages are $VIDEO_PACKAGES
-echo
-sleep 5
 
 if [ "$ACTION" = "install" ]; then
-    install
-    echo Done. Now reboot and run configuration with /home/$USERNAME/install sh -a configure
+
+    echo hostname is $HOSTNAME
+    echo device is $DEVICE
+    echo video packages are $VIDEO_PACKAGES
+    echo is the above info correct? [y/n]
+    read -t 10 confirm
+
+    if [ "$confirm" = 'y' ]; then
+        echo Ok, we move on
+        install
+        echo Done. Now reboot and run configuration with /home/$USERNAME/install sh -a configure
+    else
+        echo We done here
+        exit
+    fi
+
 elif [ "$ACTION" = "install-chroot" ]; then
     install_chroot
 else
     configure
-    echo Done configuring
+    echo Done configuring. Please reboot.
 fi
