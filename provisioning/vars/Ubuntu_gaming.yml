@@ -7,3 +7,6 @@ system_packages:
 
 sshd_settings:
   - "PermitRootLogin no"
+
+services:
+  - sshd
