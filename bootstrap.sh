@@ -75,7 +75,7 @@ get_and_install_pip() {
 
 install_ubuntu_packages() {
     sudo apt-get update
-    sudo apt-get install --yes git python-dev
+    sudo apt-get install --yes git python-dev curl
 }
 
 

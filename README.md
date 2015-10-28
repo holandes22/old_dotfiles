@@ -24,7 +24,7 @@ vboxvideo
 **note:** Will ask for sudo and ssh passphrase at beginning, so stick around
 
     $ curl -L bit.ly/provision-bootstrap -o bootstrap.sh
-    $ ./bootstrap.sh <ssh_dir>
+    $ ./bootstrap.sh -s <ssh_dir>
 
 reboot
 
