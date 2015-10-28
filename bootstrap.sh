@@ -68,7 +68,7 @@ get_and_install_pip() {
         if is_installed "pip$n"; then
             echo "pip$n" already installed
         else
-            python$n /tmp/get-pip.py
+            sudo python$n /tmp/get-pip.py
         fi
     done
 }
