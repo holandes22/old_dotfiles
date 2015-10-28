@@ -1,0 +1,9 @@
+system_packages:
+  - vlc
+  - curl
+  - tmux
+  - vim
+  - openssh-server
+
+sshd_settings:
+  - "PermitRootLogin no"

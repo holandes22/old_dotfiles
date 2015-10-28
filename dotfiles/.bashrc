@@ -32,6 +32,17 @@ if ! shopt -oq posix; then
   fi
 fi
 
+
+#========
+# Helpers
+#========
+
+source_file() {
+    if [ -f "$1" ]; then
+        source $1
+    else
+}
+
 #==================
 # Personal settings
 #==================
@@ -46,22 +57,16 @@ alias ..='cd .. '
 
 # Completion
 # ==========
-# TODO: make it work in Ubuntu and avoid sourceing if file is not there
-for completion_script in tmux vagrant tmuxinator; do
-    source /usr/share/bash-completion/completions/$completion_script
-done
-
 if [ -e "/etc/arch-release" ]; then
     source /usr/share/git/completion/git-completion.bash
     source /usr/share/git/completion/git-prompt.sh
+    source /usr/bin/virtualenvwrapper.sh
+    for completion_script in tmux vagrant tmuxinator; do
+        source /usr/share/bash-completion/completions/$completion_script
+    done
+elif [ -e "/etc/lsb-release" ]; then
+    source /usr/local/bin/virtualenvwrapper.sh
+    source_file /usr/share/doc/tmux/examples/bash_completion_tmux.sh
 elif [ -e "/etc/redhat-release" ]; then
     source /usr/share/git-core/contrib/completion/git-prompt.sh
-fi
-
-# virtualenvwrapper
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python2
-if [ \( -e "/etc/arch-release" \) -o \( -e "/etc/redhat-release" \) ]; then
-    source /usr/bin/virtualenvwrapper.sh
-else
-    source /usr/local/bin/virtualenvwrapper.sh
 fi

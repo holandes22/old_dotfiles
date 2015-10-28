@@ -1,0 +1,10 @@
+---
+- hosts: all
+  sudo: yes
+  vars_files:
+    - "vars/{{ ansible_distribution }}_gaming.yml"
+  roles:
+      - { role: folders, tags: "folders" }
+      - { role: system_packages, tags: "system_packages" }
+      - { role: python_packages, tags: "python_packages" }
+      - { role: services, tags: "services" }

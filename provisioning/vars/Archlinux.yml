@@ -8,7 +8,6 @@ system_packages:
   - nodejs
   - ruby
   - vlc
-  - base-devel
   - git
   - openssh
   - nfs-utils

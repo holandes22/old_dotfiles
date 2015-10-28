@@ -1,5 +1,13 @@
 - include: arch.yml
   when: ansible_distribution == 'Archlinux'
 
+# TODO: Will it work with ubuntu mate?
 - include: ubuntu.yml
   when: ansible_distribution == 'Ubuntu'
+
+- name: add ssh settings
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    state: present
+    line: "{{ item }}"
+  with_items: sshd_settings

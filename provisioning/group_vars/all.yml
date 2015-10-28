@@ -28,4 +28,9 @@ node_packages:
     - phantomjs
 
 services:
-  - sshd.service
+  - sshd
+  - docker
+
+sshd_settings:
+  - "AllowGroups   wheel"
+  - "PermitRootLogin no"

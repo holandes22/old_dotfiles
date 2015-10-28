@@ -3,6 +3,7 @@ set -e
 
 SRC_SSH_DIR=$1
 TGT_SSH_DIR=$HOME/.ssh
+PLAYBOOK=site.yml
 
 echo Bootstrapping
 
@@ -12,14 +13,19 @@ if [ ! -d "$TGT_SSH_DIR" ]; then
     chmod 400 $TGT_SSH_DIR/*
 fi
 
-
 is_installed() {
+    which $1
+    return $?
+
+}
+
+is_arch_pkg_installed() {
     pacman -Q $1 > /dev/null 2>&1
     return $?
 }
 
 install_packer() {
-    if is_installed packer; then
+    if is_arch_pkg_installed packer; then
         echo Packer already installed
     else
         echo Installing packer
@@ -34,7 +40,7 @@ install_packer() {
 
 install_arch_packages() {
     for pkg in python2 python-pip openssh curl jshon expac git base-devel; do
-        if is_installed $pkg; then
+        if is_arch_pkg_installed $pkg; then
             echo Package $pkg already installed
         else
             sudo pacman -S --noconfirm --needed $pkg
@@ -42,16 +48,41 @@ install_arch_packages() {
     done
 }
 
+
+get_and_install_pip() {
+    curl -L https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py
+    for n in 2 3; do
+        if is_installed "pip$n"; then
+            echo "pip$n" already installed
+        else
+            python$n /tmp/get-pip.py
+        fi
+    done
+}
+
+install_ubuntu_packages() {
+    sudo apt-get update
+    sudo apt-get install --yes git
+}
+
+while getopts "t:" opt; do
+  case $opt in
+    t)
+      if [ "$OPTARG" = "gaming" ]; then
+        PLAYBOOK=gaming.yml
+      fi
+      ;;
+  esac
+done
+
 if [ -e "/etc/arch-release" ]; then
     install_arch_packages
     install_packer
-elif [ -e "/etc/redhat-release" ]; then
-    echo "No need to install deps"
+elif [ -e "/etc/lsb-release" ]; then
+    get_and_install_pip
+    install_ubuntu_packages
 else
-    # TODO: verify check in ubuntu mate
-    # TODO: install pip with get-pip in py2 and py3
-    sudo apt-get update
-    sudo apt-get install --yes git
+    echo "No need to install deps"
 fi
 
 cd $HOME
@@ -62,6 +93,6 @@ fi
 sudo pip install virtualenv
 virtualenv -p /usr/bin/python2 /tmp/.venv
 /tmp/.venv/bin/pip install ansible
-sudo ANSIBLE_CONFIG="$HOME/dotfiles/ansible.cfg" /tmp/.venv/bin/ansible-playbook -i dotfiles/provisioning/inventory dotfiles/provisioning/site.yml -e ansible_python_interpreter=/usr/bin/python2
-
+echo Running playbook $PLAYBOOK
+sudo ANSIBLE_CONFIG="$HOME/dotfiles/ansible.cfg" /tmp/.venv/bin/ansible-playbook -i dotfiles/provisioning/inventory dotfiles/provisioning/site.yml -e ansible_python_interpreter=/usr/bin/python2 dotfiles/provisioning/$PLAYBOOK
 echo Done. Recommended to reboot
