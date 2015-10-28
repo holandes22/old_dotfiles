@@ -1,12 +1,12 @@
 # Arch install
 
     # curl -L bit.ly/pk-archinstall -o install.sh
-    # ./install.sh -a install -n <hostname>
+    # ./install.sh -a install -n <hostname> -d <device>
 
 reboot
 
     # cd home/<username>
-    # ./install.sh -a configure
+    # ./install.sh -a configure -v <video_drivers>
 
 reboot
 

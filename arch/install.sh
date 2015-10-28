@@ -49,7 +49,7 @@ install_chroot() {
     for image in initramfs-linux initramfs-linux-fallback; do
         sed -i "s/INITRD\s..\/$image.img/INITRD ..\/intel-ucode.img,..\/$image.img/g" $SYSLINUX_CFG_FILE
     done
-    sed -i "s/APPEND\sroot=\/dev\/sda3\srw/APPEND root=$DEVICE1 rw/g" $SYSLINUX_CFG_FILE
+    sed -i "s:APPEND\sroot=/dev/sda3\srw:APPEND root=${DEVICE}1 rw:g" $SYSLINUX_CFG_FILE
 }
 
 install() {
