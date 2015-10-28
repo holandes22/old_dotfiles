@@ -83,8 +83,8 @@ if [ -e "/etc/arch-release" ]; then
     install_arch_packages
     install_packer
 elif [ -e "/etc/lsb-release" ]; then
-    get_and_install_pip
     install_ubuntu_packages
+    get_and_install_pip
 else
     echo "No need to install deps"
 fi
