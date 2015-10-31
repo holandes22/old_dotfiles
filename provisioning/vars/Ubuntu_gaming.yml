@@ -1,3 +1,4 @@
+group: {{ user }}
 system_packages:
   - vlc
   - curl
