@@ -10,3 +10,6 @@
     state: present
     line: "{{ item }}"
   with_items: sshd_settings
+
+- name: ensure everything in home folder is owned by user
+  file: path={{ home_folder }} owner={{ user }} group={{ group }} recurse=yes
