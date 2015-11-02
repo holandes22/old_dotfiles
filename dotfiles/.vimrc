@@ -24,7 +24,6 @@ set nocompatible " be iMproved
             Bundle 'scrooloose/nerdcommenter'
             Bundle 'scrooloose/syntastic'
             Bundle 'bling/vim-airline'
-            Bundle 'blueyed/vim-diminactive'
         " General Vim end
 
         " Git
