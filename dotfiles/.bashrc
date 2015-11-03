@@ -55,6 +55,11 @@ export TERM=screen-256color
 
 alias ..='cd .. '
 
+# Tools
+# =====
+
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python2.7
+
 # Completion
 # ==========
 if [ -e "/etc/arch-release" ]; then
