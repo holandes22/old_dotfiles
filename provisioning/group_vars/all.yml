@@ -13,8 +13,6 @@ home_folders:
 
 python_packages:
     - vim-bridge
-    - pep8
-    - pylint
     - ipython
     - virtualenv
     - virtualenvwrapper
