@@ -15,7 +15,7 @@
     untracked = cyan
 
 [color "branch"]
-    current = cyan 
+    current = cyan
     local = yellow
     remote = green
 
@@ -24,9 +24,6 @@
     frag = magenta bold
     old = red bold
     new = green bold
-
-[help]
-    autocorrect = 10
 
 [alias]
     lg = log --oneline --graph --decorate --abbrev-commit
