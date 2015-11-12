@@ -158,11 +158,8 @@ endif
         \ }
 
     " syntastic
-    let g:syntastic_python_flake8_exec = 'python'
-    let g:syntastic_python_pylint_exe = 'python -m pylint'
-    let g:syntastic_python_checkers = ['pylint', 'pep8']
+    let g:syntastic_python_checkers = ['flake8']
     let g:syntastic_check_on_open = 0
-    " let g:syntastic_python_pylint_args='--rcfile=~/.pylintrc'
 
     let g:syntastic_javascript_checkers = ['jshint']
 

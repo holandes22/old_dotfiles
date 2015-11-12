@@ -12,6 +12,7 @@ home_folders:
     - projects
 
 python_packages:
+    - flake8
     - vim-bridge
     - ipython
     - virtualenv
