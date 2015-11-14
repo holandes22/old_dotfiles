@@ -5,6 +5,7 @@ system_packages:
   - tmux
   - vim
   - openssh-server
+  - nfs-kernel-server
 
 sshd_settings:
   - "PermitRootLogin no"
