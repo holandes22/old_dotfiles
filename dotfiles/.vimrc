@@ -40,7 +40,7 @@ set nocompatible " be iMproved
         " web
             Bundle 'mattn/emmet-vim'
             Bundle 'mustache/vim-mustache-handlebars'
-            Bundle 'groenewege/vim-less'
+            Bundle 'cakebaker/scss-syntax.vim'
         " web end
 
         " Formatting
@@ -80,8 +80,7 @@ endif
     set sts=4                      " softtabstop
     set sw=4                       " shiftwidth
     set expandtab
-    set tw=120
-    set autoindent
+    set tw=0 " Text Width, avoid text wrapping
     set backup " make backup files
     set backupdir=~/.vim/backup " where to put backup files
     set clipboard+=unnamed " share windows clipboard
@@ -92,15 +91,12 @@ endif
     set noerrorbells              " No noise.
     " set colorcolumn=121            " Right column
     set encoding=utf8
-    set ai "Auto indent
-    set si "Smart indet
     set autoindent smartindent
     set nowrap " Do not wrap lines
     set incsearch
     " Removing trailing whitespaces.
     autocmd FileType * autocmd BufWritePre <buffer> :%s/\s\+$//e
-    autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType html*,hbs,handlebars,jinja*,j2,js,javascript,*css,less,json,yml,yaml setlocal ts=2 sw=2 sts=2  "html, htmldjango, jinja
+    autocmd FileType html*,hbs,handlebars,jinja*,j2,js,javascript,*css,less,json,yml,yaml setlocal ts=2 sw=2 sts=2
     " Mark trailing whitespace
     set list listchars=trail:_
     highlight SpecialKey ctermfg=DarkGray ctermbg=yellow
@@ -126,28 +122,13 @@ endif
     map <leader>aa ggVG
     call togglebg#map("<F5>")
 
-
 " Keymaps end
 
-" Filetype overrides
-   " Python
-   " Python end
-" Filetype overrides end
-
 " Vim Plugin Configs
-    " Solarized
-
-    " Handle TERM quirks in vim
-    if $TERM =~ 'screen'
-        nmap <Esc>OH <Home>
-        imap <Esc>OH <Home>
-        nmap <Esc>OF <End>
-        imap <Esc>OF <End>
-    endif
 
     " Solarized
     set background=dark
-    let g:solarized_termcolors=256
+    let g:solarized_termcolors=256 " If termnil has no solarized color scheme
     colorscheme solarized
 
     " CtrlP
@@ -158,9 +139,8 @@ endif
         \ }
 
     " syntastic
-    let g:syntastic_python_checkers = ['pylint', 'pep8']
     let g:syntastic_check_on_open = 0
-
+    let g:syntastic_python_checkers = ['pylint', 'pep8']
     let g:syntastic_javascript_checkers = ['jshint']
 
     " jedi-vim
