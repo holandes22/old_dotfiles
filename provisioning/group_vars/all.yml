@@ -12,7 +12,8 @@ home_folders:
     - projects
 
 python_packages:
-    - flake8
+    - pep8
+    - pylint
     - vim-bridge
     - ipython
     - virtualenv

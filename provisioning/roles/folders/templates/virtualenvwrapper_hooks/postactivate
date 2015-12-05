@@ -2,3 +2,5 @@ DIR={{ home_folder }}/projects/`basename $VIRTUAL_ENV`
 if [ -d "$DIR" ]; then
     cd $DIR
 fi
+# Avoid import errors in venv for installed packages, by having pylint in the same interpreter
+pip install pylint > /dev/null

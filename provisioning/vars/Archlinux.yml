@@ -22,8 +22,6 @@ system_packages:
   - gvfs-smb
   - docker
   - gedit
-  - python-pylint
-  - python2-pylint
 
 user_system_packages:
   - cargo-bin
