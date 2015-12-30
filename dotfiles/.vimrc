@@ -96,7 +96,7 @@ endif
     set incsearch
     " Removing trailing whitespaces.
     autocmd FileType * autocmd BufWritePre <buffer> :%s/\s\+$//e
-    autocmd FileType html*,hbs,handlebars,jinja*,j2,js,javascript,*css,less,json,yml,yaml setlocal ts=2 sw=2 sts=2
+    autocmd FileType html*,hbs,handlebars,jinja*,j2,js,javascript,*css,less,json,yml,yaml,rb,ruby setlocal ts=2 sw=2 sts=2
     " Mark trailing whitespace
     set list listchars=trail:_
     highlight SpecialKey ctermfg=DarkGray ctermbg=yellow
@@ -134,7 +134,7 @@ endif
     " CtrlP
     let g:ctrlp_map = '<Leader>p'
     let g:ctrlp_custom_ignore = {
-        \ 'dir':  '\v[\/](\.(git|hg|svn)|node_modules|bower_components|build|frontend\/tmp|frontend\/dist)$',
+        \ 'dir':  '\v[\/](\.(git|hg|svn)|node_modules|bower_components|build|frontend\/tmp|frontend\/dist|tmp|dist)$',
         \ 'file': '\v\.(exe|so|dll|pyc)$',
         \ }
 
