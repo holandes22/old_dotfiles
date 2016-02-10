@@ -4,18 +4,7 @@ function short_pwd {
     echo $PWD | sed "s:${HOME}:~:" | sed "s:/\(.\)[^/]*:/\1:g" | sed "s:/[^/]*$:/$(basename "$PWD"):"
 }
 
-ps1_rvm()
-{
-    gemset=''
-    if [ -f $HOME/.rvm/bin/rvm-prompt ]; then
-        gemset=`rvm-prompt g`
-    fi
-    if [ ! -z $gemset ]; then
-        command -v rvm-prompt >/dev/null 2>&1 && printf "%s" "($(rvm-prompt i v g))"
-    fi
-}
-
-PS1='$(ps1_rvm)\[\033[01;32m\]\u@\[\033[01;34m\]\h\[\033[00m\]:$(short_pwd)$(__git_ps1 "\[\e[32m\][%s]\[\e[0m\]")$ '
+PS1='\[\033[01;32m\]\u@\[\033[01;34m\]\h\[\033[00m\]:$(short_pwd)$(__git_ps1 "\[\e[32m\][%s]\[\e[0m\]")$ '
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
