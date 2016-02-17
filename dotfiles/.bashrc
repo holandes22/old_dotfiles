@@ -4,7 +4,7 @@ function short_pwd {
     echo $PWD | sed "s:${HOME}:~:" | sed "s:/\(.\)[^/]*:/\1:g" | sed "s:/[^/]*$:/$(basename "$PWD"):"
 }
 
-PS1='\[\033[01;32m\]\u@\[\033[01;34m\]\h\[\033[00m\]:$(short_pwd)$(__git_ps1 "\[\e[32m\][%s]\[\e[0m\]")$ '
+PS1='\[\033[01;32m\]\u@\[\033[01;34m\]\h\[\033[00m\]:$(short_pwd)$(__git_ps1 "\[\e[32m\][%s]\[\e[0m\]")\n$ '
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
