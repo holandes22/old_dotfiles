@@ -23,7 +23,8 @@ set nocompatible " be iMproved
             Bundle 'altercation/vim-colors-solarized'
             Bundle 'scrooloose/nerdcommenter'
             Bundle 'scrooloose/syntastic'
-            Bundle 'bling/vim-airline'
+            Bundle 'vim-airline/vim-airline'
+            Bundle 'vim-airline/vim-airline-themes'
         " General Vim end
 
         " Git
@@ -36,6 +37,11 @@ set nocompatible " be iMproved
 
         " Rust
             Bundle 'rust-lang/rust.vim'
+        " Rust end
+
+        " Elixir
+            Bundle 'elixir-lang/vim-elixir'
+        " Elixir end
 
         " web
             Bundle 'mattn/emmet-vim'
@@ -96,7 +102,7 @@ endif
     set incsearch
     " Removing trailing whitespaces.
     autocmd FileType * autocmd BufWritePre <buffer> :%s/\s\+$//e
-    autocmd FileType html*,hbs,handlebars,jinja*,j2,js,javascript,*css,less,json,yml,yaml,rb,ruby setlocal ts=2 sw=2 sts=2
+    autocmd FileType html*,hbs,handlebars,jinja*,j2,js,javascript,*css,less,json,yml,yaml,rb,ruby,ex,exs setlocal ts=2 sw=2 sts=2
     " Mark trailing whitespace
     set list listchars=trail:_
     highlight SpecialKey ctermfg=DarkGray ctermbg=yellow
@@ -123,6 +129,10 @@ endif
     call togglebg#map("<F5>")
 
 " Keymaps end
+
+" Explore
+    let g:netrw_liststyle=3
+    map <leader>k :Explore<cr>
 
 " Vim Plugin Configs
 
@@ -156,6 +166,12 @@ endif
 
     " emmet-vim
     let g:user_emmet_leader_key='<c-x>'
+
+    let g:airline_left_sep = '»'
+    let g:airline_left_sep = '▶'
+    let g:airline_right_sep = '«'
+    let g:airline_right_sep = '◀'
+
 
 " Vim Plugin Configs end
 

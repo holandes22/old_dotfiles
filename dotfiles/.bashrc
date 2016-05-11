@@ -66,7 +66,7 @@ if [ -e "/etc/arch-release" ]; then
     source /usr/share/git/completion/git-completion.bash
     source /usr/share/git/completion/git-prompt.sh
     source /usr/bin/virtualenvwrapper.sh
-    for completion_script in tmux vagrant tmuxinator; do
+    for completion_script in vagrant tmuxinator; do
         source /usr/share/bash-completion/completions/$completion_script
     done
 elif [ -e "/etc/lsb-release" ]; then
@@ -78,5 +78,5 @@ fi
 
 # Ruby
 # ====
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export PATH="$PATH:$HOME/otto:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
