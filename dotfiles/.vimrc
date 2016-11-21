@@ -41,6 +41,7 @@ set nocompatible " be iMproved
 
         " Elixir
             Bundle 'elixir-lang/vim-elixir'
+            Plugin 'slashmili/alchemist.vim'
         " Elixir end
 
         " web
@@ -145,7 +146,7 @@ endif
     let g:ctrlp_map = '<Leader>p'
     let g:ctrlp_custom_ignore = {
         \ 'dir':  '\v[\/](\.(git|hg|svn)|node_modules|bower_components|build|frontend\/tmp|frontend\/dist|tmp|dist)$',
-        \ 'file': '\v\.(exe|so|dll|pyc)$',
+        \ 'file': '\v\.(exe|so|dll|pyc|beam)$',
         \ }
 
     " syntastic
