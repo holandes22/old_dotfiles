@@ -1,66 +1,43 @@
-" Vim config - optimized for Python, JS
-set nocompatible " be iMproved
+" Vim config - optimized for Python, Elixir and Web
 
-" Vundle
-    " Setting up Vundle - the vim plugin bundler
-        let iCanHazVundle=1
-        let vundle_readme=expand("~/.vim/bundle/vundle/README.md")
-        if !filereadable(vundle_readme)
-            echo "Installing Vundle.."
-            echo ""
-            silent !mkdir -p ~/.vim/bundle
-            silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
-            let iCanHazVundle=0
-        endif
-        set rtp+=~/.vim/bundle/vundle/
-        call vundle#rc()
-        Bundle 'gmarik/vundle'
-    " Setting up Vundle - the vim plugin bundler end
+set nocompatible
 
-    " Bundles
-        " General Vim
-            Bundle 'ctrlpvim/ctrlp.vim'
-            Bundle 'altercation/vim-colors-solarized'
-            Bundle 'scrooloose/nerdcommenter'
-            Bundle 'scrooloose/syntastic'
-            Bundle 'vim-airline/vim-airline'
-            Bundle 'vim-airline/vim-airline-themes'
-        " General Vim end
+call plug#begin('~/.vim/plugged')
 
-        " Git
-            Bundle 'https://github.com/tpope/vim-fugitive.git'
+    " General Vim
+      Plug 'ctrlpvim/ctrlp.vim'
+      Plug 'altercation/vim-colors-solarized'
+      Plug 'scrooloose/nerdcommenter'
+      Plug 'scrooloose/syntastic'
+      Plug 'vim-airline/vim-airline'
+      Plug 'vim-airline/vim-airline-themes'
 
-        " Python
-            Bundle 'davidhalter/jedi-vim'
-            Bundle 'hdima/python-syntax'
-        " Python end
+    " Git
+      Plug 'https://github.com/tpope/vim-fugitive.git'
 
-        " Rust
-            Bundle 'rust-lang/rust.vim'
-        " Rust end
+    " Python
+      Plug 'davidhalter/jedi-vim'
+      Plug 'hdima/python-syntax'
 
-        " Elixir
-            Bundle 'elixir-lang/vim-elixir'
-            Plugin 'slashmili/alchemist.vim'
-        " Elixir end
+    " Rust
+      Plug 'rust-lang/rust.vim'
 
-        " web
-            Bundle 'mattn/emmet-vim'
-            Bundle 'mustache/vim-mustache-handlebars'
-            Bundle 'cakebaker/scss-syntax.vim'
-        " web end
+    " Elixir
+      Plug 'elixir-lang/vim-elixir'
+      Plug 'slashmili/alchemist.vim'
 
-        " Formatting
-            Bundle 'chase/vim-ansible-yaml'
-        " Formatting end
-    " Bundles end
+    " Elm
+      Plug 'elmcast/elm-vim'
 
-    if iCanHazVundle == 0
-        echo "Installing Bundles, please ignore key map error messages"
-        echo ""
-    :BundleInstall
-    endif
-" Vundle end
+    " Web
+      Plug 'mattn/emmet-vim'
+      Plug 'mustache/vim-mustache-handlebars'
+      Plug 'cakebaker/scss-syntax.vim'
+
+    " Formatting
+      Plug 'chase/vim-ansible-yaml'
+
+call plug#end()
 
 " Prepare tmp and backup folders
 if !isdirectory("~/.vim/tmp")
@@ -71,6 +48,9 @@ if !isdirectory("~/.vim/backup")
 endif
 
 "Set Vim defaults
+    set t_Co=256
+    set laststatus=2
+    set noshowmode
     set backspace=indent,eol,start
     set history=256                " Number of things to remember in history.
     set timeoutlen=250             " Time to wait after ESC (default causes an annoying delay)
@@ -103,14 +83,10 @@ endif
     set incsearch
     " Removing trailing whitespaces.
     autocmd FileType * autocmd BufWritePre <buffer> :%s/\s\+$//e
-    autocmd FileType html*,hbs,handlebars,jinja*,j2,js,javascript,*css,less,json,yml,yaml,rb,ruby,ex,exs setlocal ts=2 sw=2 sts=2
+    autocmd FileType html*,hbs,handlebars,jinja*,j2,js,javascript,*css,less,json,yml,yaml,rb,ruby,ex,exs,fish setlocal ts=2 sw=2 sts=2
     " Mark trailing whitespace
     set list listchars=trail:_
     highlight SpecialKey ctermfg=DarkGray ctermbg=yellow
-    try
-        lang en_US
-    catch
-    endtry
     syntax on
     syntax enable
     " filetype plugin on
@@ -124,56 +100,67 @@ endif
 
 
 " Keymaps
-    let mapleader = ","
-    " Select All
-    map <leader>aa ggVG
-    call togglebg#map("<F5>")
+let mapleader = ","
+" Select All
+map <leader>aa ggVG
+call togglebg#map("<F5>")
 
 " Keymaps end
 
 " Explore
-    let g:netrw_liststyle=3
-    map <leader>k :Explore<cr>
+let g:netrw_liststyle=3
+map <leader>k :Explore<cr>
+
+" Colorscheme
+" Plug 'ayu-theme/ayu-vim'
+" not working with TMUX, but nice theme, check it out again in a few months.
+"if (empty($TMUX))
+"  if (has('termguicolors'))
+"    set termguicolors
+"  endif
+"endif
+"let ayucolor="mirage"
+" colorscheme ayu
+
+set background=dark
+" let g:solarized_termcolors=256 " uncomment if terminal has no solarized color scheme
+colorscheme solarized
 
 " Vim Plugin Configs
 
-    " Solarized
-    set background=dark
-    let g:solarized_termcolors=256 " If termnil has no solarized color scheme
-    colorscheme solarized
+" CtrlP
+let g:ctrlp_map = '<Leader>p'
+let g:ctrlp_custom_ignore = {
+    \ 'dir':  '\v[\/](\.(git|hg|svn)|node_modules|bower_components|build|frontend\/tmp|frontend\/dist|tmp|dist|htmlcov)$',
+    \ 'file': '\v\.(exe|so|dll|pyc|beam)$',
+    \ }
 
-    " CtrlP
-    let g:ctrlp_map = '<Leader>p'
-    let g:ctrlp_custom_ignore = {
-        \ 'dir':  '\v[\/](\.(git|hg|svn)|node_modules|bower_components|build|frontend\/tmp|frontend\/dist|tmp|dist)$',
-        \ 'file': '\v\.(exe|so|dll|pyc|beam)$',
-        \ }
+" syntastic
+let g:syntastic_check_on_open = 0
+let g:syntastic_python_checkers = ['pylint', 'pep8']
+let g:syntastic_javascript_checkers = ['jshint']
 
-    " syntastic
-    let g:syntastic_check_on_open = 0
-    let g:syntastic_python_checkers = ['pylint', 'pep8']
-    let g:syntastic_javascript_checkers = ['jshint']
+" jedi-vim
+let g:jedi#popup_on_dot = 0
+let g:jedi#use_tabs_not_buffers = 0
+let g:jedi#show_call_signatures = 0
 
-    " jedi-vim
-    let g:jedi#popup_on_dot = 0
-    let g:jedi#use_tabs_not_buffers = 0
-    let g:jedi#show_call_signatures = 0
+" Python-syntax
+let python_highlight_all = 1
 
-    " Python-sintax
-    let python_highlight_all = 1
+" Handlebars
+let g:mustache_abbreviations = 1
 
-    " Handlebars
-    let g:mustache_abbreviations = 1
+" emmet-vim
+let g:user_emmet_leader_key = '<c-x>'
 
-    " emmet-vim
-    let g:user_emmet_leader_key='<c-x>'
+" airline vim
+let g:airline_theme = 'luna'
+let g:bufferline_echo = 0
+let g:airline_branch_prefix = '⎇ '
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
 
-    let g:airline_left_sep = '»'
-    let g:airline_left_sep = '▶'
-    let g:airline_right_sep = '«'
-    let g:airline_right_sep = '◀'
-
-
-" Vim Plugin Configs end
-
+" elm-vim
+let g:elm_format_autosave = 1
 

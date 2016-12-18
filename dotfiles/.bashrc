@@ -12,7 +12,7 @@ function git_branch {
             color="0;31"
         fi
     fi
-    echo `__git_ps1 "\e[1m\e[${color}m[git:%s]\e[0m"`
+    echo `__git_ps1 "\e[${color}m[git:%s]\e[0m"`
 }
 
 
@@ -60,7 +60,6 @@ source_file() {
 #==================
 
 export EDITOR=vim
-export TERM=screen-256color
 
 # Aliases
 # =======
