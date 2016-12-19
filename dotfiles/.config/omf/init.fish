@@ -1,9 +1,10 @@
 # TODO
 # - rm/create virtualenv functions
 #
-#
-#
-# http://ethanschoonover.com/solarized#the-values
+
+alias mux=tmuxinator
+alias ovim=/usr/bin/vim
+alias vim=/usr/bin/nvim
 
 source $HOME/.config/omf/functions/fish_prompt.fish
 
@@ -24,7 +25,7 @@ function workon
     source $HOME/.virtualenvs/$venv/bin/activate.fish
     ls $project_path > /dev/null 2>&1
     if test $status -eq 0
-        cd $project_path
+      cd $project_path
     end
 
   else
@@ -32,5 +33,3 @@ function workon
     return 1
   end
 end
-
-

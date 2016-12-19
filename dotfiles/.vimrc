@@ -63,9 +63,9 @@ endif
     set hlsearch                   " highlight search
     set incsearch                  " show matches while typing
     let g:is_posix = 1             " vim's default is archaic bourne shell,
-    set ts=4                       " tabstop tab size eql 4 spaces
-    set sts=4                      " softtabstop
-    set sw=4                       " shiftwidth
+    set ts=2                       " tabstop tab size eql 4 spaces
+    set sts=2                      " softtabstop
+    set sw=2                       " shiftwidth
     set expandtab
     set tw=0 " Text Width, avoid text wrapping
     set backup " make backup files
@@ -83,14 +83,14 @@ endif
     set incsearch
     " Removing trailing whitespaces.
     autocmd FileType * autocmd BufWritePre <buffer> :%s/\s\+$//e
-    autocmd FileType html*,hbs,handlebars,jinja*,j2,js,javascript,*css,less,json,yml,yaml,rb,ruby,ex,exs,fish setlocal ts=2 sw=2 sts=2
+    autocmd FileType py setlocal ts=4 sw=4 sts=4
     " Mark trailing whitespace
     set list listchars=trail:_
     highlight SpecialKey ctermfg=DarkGray ctermbg=yellow
     syntax on
     syntax enable
     " filetype plugin on
-    filetype plugin indent on " load filetype plugins/indent settings
+    filetype plugin indent on
 
     " give more space to active window
     set winheight=15
@@ -100,28 +100,28 @@ endif
 
 
 " Keymaps
+" -------
 let mapleader = ","
-" Select All
-map <leader>aa ggVG
+map <leader>aa ggVG "select all
 call togglebg#map("<F5>")
 
-" Keymaps end
-
-" Explore
+" Exploration
+" -----------
 let g:netrw_liststyle=3
 map <leader>k :Explore<cr>
 
 " Colorscheme
+" -----------
+
 " Plug 'ayu-theme/ayu-vim'
 " not working with TMUX, but nice theme, check it out again in a few months.
-"if (empty($TMUX))
-"  if (has('termguicolors'))
-"    set termguicolors
-"  endif
-"endif
+" set termguicolors
 "let ayucolor="mirage"
 " colorscheme ayu
 
+if (!empty($TMUX))
+  set term=screen-256color
+endif
 set background=dark
 " let g:solarized_termcolors=256 " uncomment if terminal has no solarized color scheme
 colorscheme solarized
@@ -163,4 +163,3 @@ let g:airline_right_sep = ''
 
 " elm-vim
 let g:elm_format_autosave = 1
-
