@@ -15,7 +15,6 @@ function git_branch {
     echo `__git_ps1 "\e[${color}m[git:%s]\e[0m"`
 }
 
-
 PS1='\[\033[01;32m\]\u@\[\033[01;34m\]\h\[\033[00m\]:$(short_pwd)$(git_branch)\n$ '
 
 # enable color support of ls and also add handy aliases

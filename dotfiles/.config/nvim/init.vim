@@ -1,3 +1,5 @@
+""" Based of https://github.com/knewter/dotfiles/tree/master/nvim
+
 scriptencoding utf-8
 
 """ Basics
@@ -26,11 +28,13 @@ set nowrap
 " show file title in terminal
 set title
 
+set clipboard=unnamedplus
+
 """ Keymaps
 """ -------
 
 let g:mapleader = ','
-map <leader>aa ggVG "select all
+map <leader>aa ggVG
 let g:netrw_liststyle=3
 map <leader>k :Explore<cr>
 
@@ -45,6 +49,8 @@ set incsearch
 set ignorecase smartcase
 " ignore case when searching lowercase
 set smartcase
+" clear search highlight with esc
+nnoremap <esc> :noh<return><esc>
 
 " line numbering
 set number
@@ -74,6 +80,7 @@ call plug#begin('~/.config/nvim/plugged')
         \ 'file': '\v\.(exe|so|dll|pyc|beam)$',
         \ }
 
+
   Plug 'altercation/vim-colors-solarized'
 
   Plug 'tomtom/tcomment_vim'
@@ -82,7 +89,6 @@ call plug#begin('~/.config/nvim/plugged')
 
   Plug 'vim-airline/vim-airline-themes'
     let g:airline_theme = 'luna'
-    let g:airline_branch_prefix = '⎇ '
     let g:airline_left_sep = ''
     let g:airline_right_sep = ''
 
@@ -108,16 +114,66 @@ call plug#begin('~/.config/nvim/plugged')
       autocmd! BufWritePost * Neomake
     augroup END
 
+    " default icons are barely visible, so use Capital letters
+    let g:neomake_error_sign = {
+    \ 'text': 'E>',
+    \ 'texthl': 'ErrorMsg',
+    \ }
+
+    let g:neomake_warning_sign = {
+    \ 'text': 'W>',
+    \ 'texthl': 'WarningMsg',
+    \ }
+
+    let g:neomake_info_sign = {
+    \ 'text': 'I>',
+    \ 'texthl': 'StatusLine',
+    \ }
+
+    let g:neomake_message_sign = {
+    \ 'text': 'M>',
+    \ 'texthl': 'MoreMsg',
+    \ }
+
+    " Configure a nice credo setup, courtesy https://github.com/neomake/neomake/pull/300
+    let g:neomake_elixir_enabled_makers = ['mix', 'mcredo']
+    function! NeomakeCredoErrorType(entry)
+      if a:entry.type ==# 'F'      " Refactoring opportunities
+        let l:type = 'W'
+      elseif a:entry.type ==# 'D'  " Software design suggestions
+        let l:type = 'I'
+      elseif a:entry.type ==# 'W'  " Warnings
+        let l:type = 'W'
+      elseif a:entry.type ==# 'R'  " Readability suggestions
+        let l:type = 'I'
+      elseif a:entry.type ==# 'C'  " Convention violation
+        let l:type = 'W'
+      else
+        let l:type = 'M'           " Everything else is a message
+      endif
+      let a:entry.type = l:type
+    endfunction
+
+    let g:neomake_elixir_mcredo_maker = {
+      \ 'exe': 'mix',
+      \ 'args': ['credo', 'list', '%:p', '--format=oneline'],
+      \ 'errorformat': '[%t] %. %f:%l:%c %m,[%t] %. %f:%l %m',
+      \ 'postprocess': function('NeomakeCredoErrorType')
+      \ }
+
   """ Python
-  Plug '/davidhalter/jedi'
+  Plug 'davidhalter/jedi'
   Plug 'davidhalter/jedi-vim'
+  Plug 'zchee/deoplete-jedi'
     let g:jedi#popup_on_dot = 0
     let g:jedi#use_tabs_not_buffers = 0
     let g:jedi#show_call_signatures = 0
-  Plug 'zchee/deoplete-jedi'
 
   """ Elixir
   Plug 'slashmili/alchemist.vim'
+  Plug 'powerman/vim-plugin-AnsiEsc' " this escapes ANSI sequences when showing docs
+  Plug 'c-brenn/phoenix.vim'
+  Plug 'tpope/vim-projectionist' " required by phoenix.vim
 
   """ Elm
   Plug 'elmcast/elm-vim'
@@ -145,6 +201,13 @@ augroup erlang
   autocmd BufNewFile,BufRead relx.config setlocal filetype=erlang
 augroup END
 
+augroup elixir
+  autocmd!
+  " remap phoenix.vim find
+  autocmd BufEnter *.ex,*.exs map <leader>g <C-W>f
+  autocmd BufEnter *.ex,*.exs map <leader>t :te mix test<return>
+augroup END
+
 augroup elm
   autocmd!
   autocmd BufNewFile,BufRead *.elm setlocal tabstop=4
@@ -162,6 +225,12 @@ augroup END
 augroup dotenv
   autocmd!
   autocmd BufNewFile,BufRead *.envrc setlocal filetype=sh
+augroup END
+
+augroup javascript
+  autocmd!
+  autocmd BufNewFile,BufRead *.js setlocal filetype=javascript
+  autocmd BufNewFile,BufRead *.es6 setlocal filetype=javascript
 augroup END
 
 augroup markdown
@@ -186,3 +255,15 @@ endfunc
 augroup whitespace
   autocmd BufWrite * silent call DeleteTrailingWS()
 augroup END
+
+
+""" Cheatsheet
+
+" gx - When the cursor is on a URL, it opens a browswer
+" <leader>gc -> toggle comment
+" <leader>r -> rename (python)
+" <leader>g -> goto definition (python, phoenix)
+" K -> show docmodule (Elixir)
+"
+" CTRL + ] -> got to definition
+" after search, remove highlight with ESC

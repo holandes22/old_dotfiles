@@ -8,8 +8,21 @@ alias vim=/usr/bin/nvim
 
 source $HOME/.config/omf/functions/fish_prompt.fish
 
-set -g -x EDITOR vim
+set -g -x EDITOR nvim
 set -g -x VIRTUAL_ENV_DISABLE_PROMPT 1
+
+
+function unset
+  set --erase $argv
+end
+
+function rrpyc
+  find . -name "*.pyc" -delete
+end
+
+function rrso
+  find . -name "*.so" -delete
+end
 
 function workon
   if [ (count $argv) -lt 1 ]
@@ -33,3 +46,5 @@ function workon
     return 1
   end
 end
+
+eval (direnv hook fish)
