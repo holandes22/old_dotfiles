@@ -91,6 +91,10 @@ call plug#begin('~/.config/nvim/plugged')
     let g:airline_theme = 'luna'
     let g:airline_left_sep = ''
     let g:airline_right_sep = ''
+    let g:airline_branch_prefix = ''
+    let g:airline_enable_branch=1
+    let g:bufferline_echo = 0
+    let g:airline_powerline_fonts=1
 
   """ Git
   Plug 'https://github.com/tpope/vim-fugitive.git'
