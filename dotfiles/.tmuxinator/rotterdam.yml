@@ -1,0 +1,28 @@
+# ~/.tmuxinator/rotterdam.yml
+
+name: rotterdam
+root: ~/projects/rotterdam
+
+# Runs before everything. Use it to start daemons etc.
+# pre: sudo /etc/rc.d/mysqld start
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+# pre_window: rbenv shell 2.0.0-p247
+
+# Runs after everything. Use it to attach to tmux with custom options etc.
+# post: tmux -CC attach -t rotterdam
+
+startup_window: editor
+
+windows:
+  - editor: vim
+  - server: iex -v
+  - tests: mix
+  - swarm:
+      layout: tiled
+      panes:
+        - eval (docker-machine env cluster1-node1)
+        - eval (docker-machine env cluster1-node1)
+        - eval (docker-machine env cluster1-node2)
+        - eval (docker-machine env cluster1-node3)
+  - notes: vim ~/Dropbox/dev/projects/container-orchestration/notes.md
