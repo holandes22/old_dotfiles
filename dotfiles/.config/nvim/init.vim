@@ -2,6 +2,21 @@
 
 scriptencoding utf-8
 
+function! EsLintPath()
+  let file_path = $PWD .'/node_modules/.bin/eslint'
+  if filereadable(file_path)
+    return file_path
+  endif
+
+  let file_path = $PWD .'/assets/node_modules/.bin/eslint'
+  if filereadable(file_path)
+    return file_path
+  endif
+
+  return 'not found'
+
+endfunction
+
 """ Basics
 """ ------
 
@@ -76,7 +91,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'ctrlpvim/ctrlp.vim'
     let g:ctrlp_map = '<Leader>p'
     let g:ctrlp_custom_ignore = {
-        \ 'dir': '\v[\/](\.(git|hg|svn)|node_modules|bower_components|build|_build|deps|frontend\/tmp|frontend\/dist|tmp|dist|htmlcov|elm-stuff)$',
+        \ 'dir': '\v[\/](\.(git|hg|svn)|node_modules|bower_components|build|_build|deps|frontend\/tmp|frontend\/dist|tmp|dist|htmlcov|elm-stuff|priv\/static)$',
         \ 'file': '\v\.(exe|so|dll|pyc|beam)$',
         \ }
 
@@ -118,6 +133,9 @@ call plug#begin('~/.config/nvim/plugged')
       autocmd! BufWritePost * Neomake
     augroup END
 
+    let g:neomake_javascript_enabled_makers = ['eslint']
+    let g:neomake_javascript_eslint_exe = EsLintPath()
+
     " default icons are barely visible, so use Capital letters
     let g:neomake_error_sign = {
     \ 'text': 'E>',
@@ -140,7 +158,7 @@ call plug#begin('~/.config/nvim/plugged')
     \ }
 
     " Configure a nice credo setup, courtesy https://github.com/neomake/neomake/pull/300
-    let g:neomake_elixir_enabled_makers = ['mix', 'mcredo']
+    let g:neomake_elixir_enabled_makers = ["mix"] " ['mix', 'mcredo']
     function! NeomakeCredoErrorType(entry)
       if a:entry.type ==# 'F'      " Refactoring opportunities
         let l:type = 'W'
