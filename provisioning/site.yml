@@ -6,7 +6,4 @@
   roles:
       - { role: folders, tags: "folders" }
       - { role: system_packages, tags: "system_packages" }
-      - { role: python_packages, tags: "python_packages" }
-      - { role: ruby_packages, tags: "ruby_packages" }
-      - { role: node_packages, tags: "node_packages" }
       - { role: services, tags: "services" }

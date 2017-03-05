@@ -6,26 +6,11 @@ user: "{{ lookup('env','LOCAL_PROVISIONING_USER') | default('pablo', true) }}"
 group: "{{ lookup('env','LOCAL_PROVISIONING_GROUP') | default('users', true) }}"
 home_folder: "{{ lookup('env','LOCAL_PROVISIONING_HOME') | default('/home/pablo', true) }}"
 dotfiles_folder: "{{ home_folder }}/dotfiles/dotfiles"
+fish_completions_folder: "{{ home_folder }}/.config/fish/completions"
 
 home_folders:
     - .virtualenvs
     - projects
-
-python_packages:
-    - pep8
-    - pylint
-    - vim-bridge
-    - ipython
-    - virtualenv
-    - virtualenvwrapper
-
-ruby_gems:
-    - tmuxinator
-
-node_packages:
-    - jshint
-    - bower
-    - phantomjs
 
 services:
   - sshd
@@ -34,3 +19,17 @@ services:
 sshd_settings:
   - "AllowGroups   wheel"
   - "PermitRootLogin no"
+
+asdf_version: v0.2.1
+
+asdf_plugins:
+  - name: erlang
+    git_url: "https://github.com/asdf-vm/asdf-erlang.git"
+  - name: elixir
+    git_url: "https://github.com/asdf-vm/asdf-elixir"
+  - name: nodejs
+    git_url: "https://github.com/asdf-vm/asdf-nodejs"
+
+fish_completion_scripts:
+  - "https://raw.githubusercontent.com/tmuxinator/tmuxinator/master/completion/tmuxinator.fish"
+  - "https://raw.githubusercontent.com/asdf-vm/asdf/master/completions/asdf.fish"

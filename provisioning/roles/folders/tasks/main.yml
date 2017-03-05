@@ -9,13 +9,3 @@
 - name: link dotfiles
   file: src={{ dotfiles_source_path }}/{{ item }} dest={{ home_folder }}/{{ item }} state=link force=yes owner={{ user }} group={{ group }}
   with_items: dotfiles.stdout_lines
-
-- name: generate virtualenvwrapper hooks
-  template: src=virtualenvwrapper_hooks/{{ item }} dest={{ home_folder }}/.virtualenvs/{{ item }} mode=0744 owner={{ user }} group={{ group }}
-  with_items:
-    - postactivate
-
-- name: generate tmuxinator completion script
-  template: src=tmuxinator.j2 dest=/usr/share/bash-completion/completions/tmuxinator mode=0777
-  with_items:
-    - postactivate
