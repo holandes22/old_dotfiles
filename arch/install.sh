@@ -25,20 +25,28 @@ configure() {
 }
 
 
-install_chroot() {
+create_users() {
     echo setting root passwd
     passwd
 
     echo Adding user $USERNAME
     useradd -m -g users -G lp,wheel,network,video,audio,storage -s /bin/bash $USERNAME
     passwd $USERNAME
+}
 
+set_time_and_locale()  {
     echo Setting locale and timezone
     sed -i "/^#$LANG_CODE\sUTF-8/s/^#//g" /etc/locale.gen
     locale-gen
     echo LANG=$LANG_CODE > /etc/locale.conf
     export LANG=$LANG_CODE
-    ln -s /usr/share/zoneinfo/Asia/Jerusalem /etc/localtime
+    ln -sf /usr/share/zoneinfo/Asia/Jerusalem /etc/localtime
+}
+
+
+install_chroot() {
+    create_user
+    set_time_and_locale
     echo $HOSTNAME > /etc/hostname
 
     # After linux kernerl 3.17-2 and 3.14.21-2 LTS, adding intel-ucode
