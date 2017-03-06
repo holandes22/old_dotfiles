@@ -9,6 +9,7 @@ VIDEO_PACKAGES=mesa
 SYSLINUX_CFG_FILE=/boot/syslinux/syslinux.cfg
 LANG_CODE=en_US.UTF-8
 DEVICE=/dev/sda
+LOCALTIME=Asia/Jerusalem
 
 
 configure() {
@@ -17,8 +18,8 @@ configure() {
     sleep 10
     echo Installing packages
     pacman -S --noconfirm gnome $VIDEO_PACKAGES sudo xorg-server xorg-server-utils xorg-xinit alsa-utils
-    for SN in gdm NetworkManager; do
-        systemctl enable $SN.service
+    for svcname in gdm NetworkManager; do
+        systemctl enable $svcname.service
     done
     cp /etc/sudoers /etc/sudoers.original
     sed -i '/%wheel ALL=(ALL) ALL/s/^#//' /etc/sudoers
@@ -35,24 +36,37 @@ create_users() {
 }
 
 set_time_and_locale()  {
-    echo Setting locale and timezone
     sed -i "/^#$LANG_CODE\sUTF-8/s/^#//g" /etc/locale.gen
     locale-gen
     echo LANG=$LANG_CODE > /etc/locale.conf
     export LANG=$LANG_CODE
-    ln -sf /usr/share/zoneinfo/Asia/Jerusalem /etc/localtime
+    ln -sf /usr/share/zoneinfo/$LOCALTIME /etc/localtime
+}
+
+create_partitions() {
+    echo "g
+    n
+
+
+
+    w" | fdisk $DEVICE
+
+    mkfs.ext4 -O "^64bit" $DEVICE\1
 }
 
 
 install_chroot() {
+    echo Setting users
     create_user
+
+    echo Setting locale and timezone
     set_time_and_locale
     echo $HOSTNAME > /etc/hostname
 
     # After linux kernerl 3.17-2 and 3.14.21-2 LTS, adding intel-ucode
     # img is needed at boot to enable microcode update
-    pacman -S --noconfirm intel-ucode gptfdisk syslinux
     echo Adding intel-ucode boot images
+    pacman -S --noconfirm intel-ucode gptfdisk syslinux
     syslinux-install_update -iam
     for image in initramfs-linux initramfs-linux-fallback; do
         sed -i "s/INITRD\s..\/$image.img/INITRD ..\/intel-ucode.img,..\/$image.img/g" $SYSLINUX_CFG_FILE
@@ -62,23 +76,19 @@ install_chroot() {
 
 install() {
     echo Creating partitions
-    echo "g
-    n
+    create_partitions
 
-
-
-    w" | fdisk $DEVICE
-
-    mkfs.ext4 $DEVICE\1
     mount $DEVICE\1 /mnt
+
     echo Running pacstrap
     pacstrap /mnt base
     genfstab -U -p /mnt >> /mnt/etc/fstab
-    echo "Running arch-chroot"
-    cp ./install.sh /mnt/usr/src/
 
+    echo Running arch-chroot
+    cp ./install.sh /mnt/usr/src/
     arch-chroot /mnt /usr/src/install.sh -a install-chroot -n $HOSTNAME
-    echo Done running arch-root
+
+    echo Finalizing
     mv /mnt/usr/src/install.sh /mnt/home/$USERNAME
     chmod 777 /mnt/home/$USERNAME/install.sh
     umount -R /mnt
@@ -91,10 +101,17 @@ usage() {
     options:
 
         -a Action to take [install|configure]
-        -v Graphic card package
-        -n Hostname
-        -d Disk device
         -h Display this message.
+
+    install options:
+
+        -n Hostname
+        -d Disk device (default: $DEVICE)
+
+    configure options:
+
+      -v Graphic card package [nvidia|mesa] (default: $VIDEO_PACKAGES)
+
 
     "
     exit 1
@@ -147,9 +164,11 @@ if [ "$ACTION" = "install" ]; then
 
 elif [ "$ACTION" = "install-chroot" ]; then
     install_chroot
+
 elif [ "$ACTION" = "configure" ]; then
     configure
     echo Done configuring. Please reboot.
+
 else
     echo Please specify an action
     exit 1
