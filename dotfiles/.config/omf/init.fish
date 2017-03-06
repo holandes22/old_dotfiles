@@ -48,3 +48,4 @@ function workon
 end
 
 eval (direnv hook fish)
+source ~/.asdf/asdf.fish
