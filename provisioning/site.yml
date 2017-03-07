@@ -7,3 +7,6 @@
       - { role: folders, tags: "folders" }
       - { role: system_packages, tags: "system_packages" }
       - { role: services, tags: "services" }
+      - { role: asdf, tags: "asdf" }
+      - { role: completions, tags: "completions" }
+      - { role: vim, tags: "vim" }
