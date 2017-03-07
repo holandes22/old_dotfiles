@@ -43,7 +43,7 @@ install_packer() {
     else
         echo Installing packer
         cd /tmp
-        curl https://aur4.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=packer --output PKGBUILD
+        curl https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=packer --output PKGBUILD
         makepkg -f
         sudo pacman -U --noconfirm packer-*.pkg.tar.xz
         cd -
