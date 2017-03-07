@@ -16,7 +16,7 @@ Give 128MB of video memory and enable 3D acceleration.
 
 Install VBox guest modules during install or configure phase.
 
-    sudo pacman -S virtualbox-guest-modules-arch
+    sudo pacman -S virtualbox-guest-modules-arch virtualbox-guest-utils
 
 If they are not loaded, then add the file `/etc/modules-load.d/vbox.conf` with
 content
@@ -33,4 +33,3 @@ content
     $ ./bootstrap.sh -s <ssh_dir>
 
 reboot
-

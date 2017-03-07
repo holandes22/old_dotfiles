@@ -52,12 +52,14 @@ create_partitions() {
     w" | fdisk $DEVICE
 
     mkfs.ext4 -O "^64bit" $DEVICE\1
+
+    mount $DEVICE\1 /mnt
 }
 
 
 install_chroot() {
     echo Setting users
-    create_user
+    create_users
 
     echo Setting locale and timezone
     set_time_and_locale
@@ -77,8 +79,6 @@ install_chroot() {
 install() {
     echo Creating partitions
     create_partitions
-
-    mount $DEVICE\1 /mnt
 
     echo Running pacstrap
     pacstrap /mnt base
@@ -149,14 +149,13 @@ if [ "$ACTION" = "install" ]; then
 
     echo hostname is $HOSTNAME
     echo device is $DEVICE
-    echo video packages are $VIDEO_PACKAGES
     echo is the above info correct? [y/n]
     read -t 10 confirm
 
     if [ "$confirm" = 'y' ]; then
         echo Ok, we move on
         install
-        echo Done. Now reboot and run configuration with /home/$USERNAME/install sh -a configure
+        echo Done. Now reboot and run configuration with /home/$USERNAME/install.sh -a configure
     else
         echo We done here
         exit
