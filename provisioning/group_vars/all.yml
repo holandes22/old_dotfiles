@@ -6,7 +6,7 @@ user: "{{ lookup('env','LOCAL_PROVISIONING_USER') | default('pablo', true) }}"
 group: "{{ lookup('env','LOCAL_PROVISIONING_GROUP') | default('users', true) }}"
 home_folder: "{{ lookup('env','LOCAL_PROVISIONING_HOME') | default('/home/pablo', true) }}"
 dotfiles_folder: "{{ home_folder }}/dotfiles/dotfiles"
-fish_completions_folder: "{{ home_folder }}/.config/fish/completions"
+fish_completions_folder: "{{ dotfiles_folder }}/.config/fish/completions"
 
 home_folders:
     - .virtualenvs
@@ -29,6 +29,10 @@ asdf_plugins:
     git_url: "https://github.com/asdf-vm/asdf-elixir"
   - name: nodejs
     git_url: "https://github.com/asdf-vm/asdf-nodejs"
+
+asdf_folder: "{{ home_folder }}/.asdf"
+
+asdf_bin: "{{ asdf_folder }}/bin/asdf"
 
 fish_completion_scripts:
   - "https://raw.githubusercontent.com/tmuxinator/tmuxinator/master/completion/tmuxinator.fish"

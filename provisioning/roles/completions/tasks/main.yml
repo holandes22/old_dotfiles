@@ -1,7 +1,7 @@
 ---
-name: download fish completion scripts
-get_url:
-  url: {{ item }}
-  dest: {{ fish_completions_folder}}
-  mode: 06440
-with_items: fish_completion_scripts
+- name: download fish completion scripts
+  get_url:
+    url: "{{ item }}"
+    dest: "{{ fish_completions_folder }}"
+    mode: 06440
+  with_items: "{{ fish_completion_scripts }}"

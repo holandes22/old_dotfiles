@@ -1,12 +1,28 @@
 ---
 - hosts: all
-  sudo: yes
   vars_files:
     - "vars/{{ ansible_distribution }}.yml"
   roles:
-      - { role: folders, tags: "folders" }
-      - { role: system_packages, tags: "system_packages" }
-      - { role: services, tags: "services" }
-      - { role: asdf, tags: "asdf" }
-      - { role: completions, tags: "completions" }
-      - { role: vim, tags: "vim" }
+      - role: folders
+        tags: "folders"
+        
+      - role: system_packages
+        tags: "system_packages"
+
+      - role: services
+        tags: "services"
+
+      - role: asdf
+        tags: "asdf"
+        become: yes
+        become_user: "{{ user }}"
+
+      - role: completions
+        tags: "completions"
+        become: yes
+        become_user: "{{ user }}"
+
+      - role: vim
+        tags: "vim"
+        become: yes
+        become_user: "{{ user }}"

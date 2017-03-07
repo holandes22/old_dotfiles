@@ -1,18 +1,14 @@
 system_packages:
   - python
   - python2
-  - python-virtualenv
   - python2-virtualenv
   - python-pylint
   - ipython
-  - vlc
   - git
   - openssh
   - nfs-utils
   - curl
   - tmux
-  - vagrant
-  - virtualbox
   - gnome-tweak-tool
   - smbclient
   - gvfs-smb
@@ -20,15 +16,11 @@ system_packages:
   - bower
   - inotify-tools
   - neovim
+  - virtualbox
+  - vagrant
 
 user_system_packages:
-  - dropbox
-  - nautilus-dropbox
-  - google-chrome
   - watchman
   - tmuxinator
-  - elm-platform
   - yarn
   - direnv
-  - youtube-dl
-  - httpie
