@@ -30,3 +30,5 @@ user_system_packages:
   - elm-platform
   - yarn
   - direnv
+  - youtube-dl
+  - httpie
