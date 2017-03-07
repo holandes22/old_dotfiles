@@ -7,10 +7,12 @@ group: "{{ lookup('env','LOCAL_PROVISIONING_GROUP') | default('users', true) }}"
 home_folder: "{{ lookup('env','LOCAL_PROVISIONING_HOME') | default('/home/pablo', true) }}"
 dotfiles_folder: "{{ home_folder }}/dotfiles/dotfiles"
 fish_completions_folder: "{{ dotfiles_folder }}/.config/fish/completions"
+vim_autoload_folder: "{{ home_folder }}/.local/share/nvim/site/autoload"
 
 home_folders:
     - .virtualenvs
     - projects
+    - "{{ vim_autoload_folder }}"
 
 services:
   - sshd
