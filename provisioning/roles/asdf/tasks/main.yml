@@ -1,0 +1,11 @@
+- name: install asdf
+  git:
+    repo=git://github.com/asdf-vm/asdf.git
+    version={{ asdf_version }}
+    dest={{ asdf_folder }}
+    clone=yes
+    update=yes
+
+- name: install asdf plugins
+  command: "{{ asdf_bin }} plugin-add {{ item.name }} {{ item.git_url }}"
+  with_items: "{{ asdf_plugins }}"

@@ -1,31 +1,26 @@
 system_packages:
-  - python-pip
-  - python2-pip
   - python
   - python2
-  - rust
-  - npm
-  - nodejs
-  - ruby
-  - vlc
+  - python2-virtualenv
+  - python-pylint
+  - ipython
   - git
   - openssh
   - nfs-utils
   - curl
   - tmux
-  - vim
-  - vagrant
-  - virtualbox
   - gnome-tweak-tool
-  - file-roller
   - smbclient
   - gvfs-smb
   - docker
-  - gedit
+  - bower
+  - inotify-tools
+  - neovim
+  - virtualbox
+  - vagrant
 
 user_system_packages:
-  - cargo-bin
-  - dropbox
-  - nautilus-dropbox
-  - google-chrome
   - watchman
+  - tmuxinator
+  - yarn
+  - direnv
