@@ -2,5 +2,5 @@
 - name: install vim-plug for nvim
   get_url:
     url: "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
-    dest: "{{ vim_autoload_folder }}"
+    dest: "{{home_folder}}/{{ vim_autoload_folder }}"
     mode: 06440

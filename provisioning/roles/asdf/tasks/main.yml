@@ -9,3 +9,5 @@
 - name: install asdf plugins
   command: "{{ asdf_bin }} plugin-add {{ item.name }} {{ item.git_url }}"
   with_items: "{{ asdf_plugins }}"
+  register: cmd_result
+  failed_when: "'already added' not in cmd_result.stderr"
