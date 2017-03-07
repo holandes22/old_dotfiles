@@ -54,7 +54,7 @@ install_packer() {
 
 
 install_arch_packages() {
-    for pkg in python2 python-pip openssh curl jshon expac git base-devel; do
+    for pkg in python2 python-virtualenv python-pip openssh curl jshon expac git base-devel; do
         if is_arch_pkg_installed $pkg; then
             echo Package $pkg already installed
         else
@@ -96,7 +96,7 @@ if [ ! -d dotfiles ]; then
     git clone git@github.com:holandes22/dotfiles
 fi
 
-sudo pacman install python-virtualenv
+echo Creating temp virtualenv $ENV to install ansible 
 virtualenv -p /usr/bin/python2 $VENV
 $VENV/bin/pip install ansible
 sudo ANSIBLE_CONFIG="$HOME/dotfiles/ansible.cfg" $VENV/bin/ansible-playbook -i dotfiles/provisioning/inventory dotfiles/provisioning/$PLAYBOOK -e ansible_python_interpreter=$VENV/bin/python2
