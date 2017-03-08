@@ -18,6 +18,7 @@ system_packages:
   - neovim
   - python-neovim
   - virtualbox
+  - virtualbox-host-modules-arch
   - vagrant
   - powerline
   - powerline-fonts
