@@ -16,11 +16,13 @@ system_packages:
   - bower
   - inotify-tools
   - neovim
+  - python-neovim
   - virtualbox
   - vagrant
   - powerline
   - powerline-fonts
   - powerline-vim
+  - fish
 
 user_system_packages:
   - watchman

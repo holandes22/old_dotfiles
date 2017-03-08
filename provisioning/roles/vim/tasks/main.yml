@@ -3,4 +3,4 @@
   get_url:
     url: "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
     dest: "{{home_folder}}/{{ vim_autoload_folder }}"
-    mode: 06440
+    mode: u=rw,g=r,o=r

@@ -3,5 +3,5 @@
   get_url:
     url: "{{ item }}"
     dest: "{{ fish_completions_folder }}"
-    mode: 06440
+    mode: u=rw,g=r,o=r
   with_items: "{{ fish_completion_scripts }}"

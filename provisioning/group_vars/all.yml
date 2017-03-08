@@ -29,8 +29,6 @@ asdf_plugins:
     git_url: "https://github.com/asdf-vm/asdf-erlang.git"
   - name: elixir
     git_url: "https://github.com/asdf-vm/asdf-elixir"
-  - name: nodejs
-    git_url: "https://github.com/asdf-vm/asdf-nodejs"
 
 asdf_folder: "{{ home_folder }}/.asdf"
 

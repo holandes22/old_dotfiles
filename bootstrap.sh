@@ -4,7 +4,7 @@ set -e
 SRC_SSH_DIR=ssh
 TGT_SSH_DIR=$HOME/.ssh
 PLAYBOOK=site.yml
-VENV=$HOME/.provision_venv
+VENV=/tmp/.provision_venv
 
 
 while getopts "t:s:" opt; do
@@ -96,9 +96,8 @@ if [ ! -d dotfiles ]; then
     git clone git@github.com:holandes22/dotfiles
 fi
 
-echo Creating temp virtualenv $ENV to install ansible 
+echo Creating temp virtualenv $ENV to install ansible
 virtualenv -p /usr/bin/python2 $VENV
 $VENV/bin/pip install ansible
 sudo ANSIBLE_CONFIG="$HOME/dotfiles/ansible.cfg" $VENV/bin/ansible-playbook -i dotfiles/provisioning/inventory dotfiles/provisioning/$PLAYBOOK -e ansible_python_interpreter=$VENV/bin/python2
-rm -rf $VENV
 echo Done. Recommended to reboot
