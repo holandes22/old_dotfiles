@@ -23,6 +23,7 @@ system_packages:
   - powerline-fonts
   - powerline-vim
   - fish
+  - xclip
 
 user_system_packages:
   - watchman
