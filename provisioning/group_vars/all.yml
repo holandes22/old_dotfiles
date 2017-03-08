@@ -39,3 +39,4 @@ asdf_bin: "{{ asdf_folder }}/bin/asdf"
 fish_completion_scripts:
   - "https://raw.githubusercontent.com/tmuxinator/tmuxinator/master/completion/tmuxinator.fish"
   - "https://raw.githubusercontent.com/asdf-vm/asdf/master/completions/asdf.fish"
+  - "https://raw.githubusercontent.com/docker/docker/master/contrib/completion/fish/docker.fish"

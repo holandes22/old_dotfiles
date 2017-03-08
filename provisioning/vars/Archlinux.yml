@@ -18,6 +18,9 @@ system_packages:
   - neovim
   - virtualbox
   - vagrant
+  - powerline
+  - powerline-fonts
+  - powerline-vim
 
 user_system_packages:
   - watchman
