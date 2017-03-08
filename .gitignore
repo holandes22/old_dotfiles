@@ -1,1 +1,8 @@
-fish/completions/*
+dotfiles/.config/fish/completions/*
+dotfiles/.config/fish/conf.d
+dotfiles/.config/fish/fishd.*
+dotfiles/.config/nvim/plugged
+dotfiles/.config/nvim/undo
+provisioning/site.retry
+
+
