@@ -3,15 +3,12 @@
 scriptencoding utf-8
 
 function! EsLintPath()
-  let file_path = $PWD .'/node_modules/.bin/eslint'
-  if filereadable(file_path)
-    return file_path
-  endif
-
-  let file_path = $PWD .'/assets/node_modules/.bin/eslint'
-  if filereadable(file_path)
-    return file_path
-  endif
+  for p in ['/node_modules/.bin/eslint', '/assets/node_modules/.bin/eslint', '/node_modules/eslint/bin/eslint.js']
+    let file_path = $PWD .p
+    if filereadable(file_path)
+      return file_path
+    endif
+  endfor
 
   return 'not found'
 
@@ -27,7 +24,7 @@ set expandtab
 set shiftwidth=2
 
 set formatoptions=tcrq
-set textwidth=80
+set textwidth=120
 
 " give more space to active window
 set winheight=15
