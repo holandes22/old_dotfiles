@@ -95,6 +95,8 @@ call plug#begin('~/.config/nvim/plugged')
 
   Plug 'altercation/vim-colors-solarized'
 
+  Plug 'liuchengxu/space-vim-dark'
+
   Plug 'tomtom/tcomment_vim'
 
   Plug 'vim-airline/vim-airline'
