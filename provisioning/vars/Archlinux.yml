@@ -25,6 +25,7 @@ system_packages:
   - powerline-vim
   - fish
   - xclip
+  - wxgtk
 
 user_system_packages:
   - watchman
