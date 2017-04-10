@@ -22,7 +22,7 @@ sshd_settings:
   - "AllowGroups   wheel"
   - "PermitRootLogin no"
 
-asdf_version: v0.2.1
+asdf_version: v0.3.0
 
 asdf_plugins:
   - name: erlang
