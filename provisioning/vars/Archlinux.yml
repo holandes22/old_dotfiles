@@ -26,6 +26,7 @@ system_packages:
   - fish
   - xclip
   - wxgtk
+  - rsync
 
 user_system_packages:
   - watchman

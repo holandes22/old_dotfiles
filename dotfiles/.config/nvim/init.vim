@@ -88,7 +88,7 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'ctrlpvim/ctrlp.vim'
     let g:ctrlp_map = '<Leader>p'
     let g:ctrlp_custom_ignore = {
-        \ 'dir': '\v[\/](\.(git|hg|svn)|node_modules|bower_components|build|_build|deps|frontend\/tmp|frontend\/dist|tmp|dist|htmlcov|elm-stuff|priv\/static)$',
+        \ 'dir': '\v[\/](\.(git|hg|svn)|node_modules|bower_components|build|_build|deps|frontend\/tmp|frontend\/dist|tmp|dist|htmlcov|elm-stuff|releases|_build|priv\/static)$',
         \ 'file': '\v\.(exe|so|dll|pyc|beam)$',
         \ }
 
