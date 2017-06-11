@@ -17,7 +17,7 @@ configure() {
     systemctl start dhcpcd.service
     sleep 10
     echo Installing packages
-    pacman -S --noconfirm gnome $VIDEO_PACKAGES sudo xorg-server xorg-server-utils xorg-xinit alsa-utils networkmanager
+    pacman -S --noconfirm gnome $VIDEO_PACKAGES sudo xorg-server xorg-apps xorg-xinit alsa-utils networkmanager
     for svcname in gdm NetworkManager; do
         systemctl enable $svcname.service
     done

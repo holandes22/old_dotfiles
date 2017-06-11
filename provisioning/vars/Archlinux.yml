@@ -1,7 +1,5 @@
 system_packages:
   - python
-  - python2
-  - python2-virtualenv
   - python-pylint
   - ipython
   - git
