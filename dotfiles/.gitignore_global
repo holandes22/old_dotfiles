@@ -12,3 +12,6 @@
 .tmp/
 node_modules/
 requirements*txt.sha1
+.vscode
+.tool-versions
+**/.pytest_cache
