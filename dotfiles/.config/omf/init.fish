@@ -6,6 +6,7 @@ alias mux=tmuxinator
 alias ovim=/usr/bin/vim
 alias vim=/usr/bin/nvim
 
+set -x PATH "$HOME/.pyenv/bin" "$HOME/.cargo/bin" "$HOME/.astro/" $PATH
 source $HOME/.config/omf/functions/fish_prompt.fish
 
 set -gx EDITOR nvim
@@ -50,3 +51,6 @@ end
 
 eval (direnv hook fish)
 source ~/.asdf/asdf.fish
+
+status --is-interactive; and . (pyenv init -|psub)
+status --is-interactive; and . (pyenv virtualenv-init -|psub)
