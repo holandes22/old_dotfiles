@@ -1,13 +1,15 @@
-[user]
-    name = Pablo Klijnjan
-    email = pabloklijnjan@gmail.com
+[includeIf "gitdir:~/"]
+  path = .gitconfig_personal
+
+[includeIf "gitdir:~/"]
+  path = .gitconfig_work
 
 [color]
     ui = true
 
 [core]
-    editor = nvim
-    excludesfile = /home/pablo/.gitignore_global
+    editor = vim
+    excludesfile = ~/.gitignore_global
 
 [color "status"]
     added = green
@@ -33,3 +35,5 @@
     l = log --decorate
     pr = pull --rebase
     co = checkout
+[credential]
+	helper = osxkeychain
