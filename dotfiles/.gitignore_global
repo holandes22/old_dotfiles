@@ -12,6 +12,16 @@
 .tmp/
 node_modules/
 requirements*txt.sha1
-.vscode
 .tool-versions
 **/.pytest_cache
+
+.env
+.envrc
+.cache
+
+# Vscode
+.vscode
+.elixir_ls
+
+# MacOS
+.DS_Store
