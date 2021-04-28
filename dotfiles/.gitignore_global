@@ -25,3 +25,5 @@ requirements*txt.sha1
 
 # MacOS
 .DS_Store
+
+dags/playground*tests
